@@ -20,3 +20,18 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
+
+  db:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.0
+      # Postgres only (no API, Studio etc.): applies supabase/migrations.
+      - run: supabase db start
+      - run: supabase test db
+      - name: Generated types are up to date (pnpm db:types)
+        run: |
+          supabase gen types typescript --local > packages/core/src/database.types.ts
+          git diff --exit-code packages/core/src/database.types.ts

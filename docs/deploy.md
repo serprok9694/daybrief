@@ -8,7 +8,7 @@
 
 - **Preview:** каждый PR получает preview-деплой обоих проектов (Vercel Git integration). `npx turbo-ignore` пропускает сборку проекта, если его код и зависимости не менялись.
 - **Production:** merge в `main`.
-- **Миграции:** `.github/workflows/db-migrate.yml` при пуше в `main`, если менялся `supabase/migrations/**` (или вручную: Actions → DB migrations → Run workflow).
+- **Миграции:** `.github/workflows/db-migrate.yml` при пуше в `main`, если менялся `supabase/migrations/**` (или вручную: Actions → DB migrations → Run workflow). Перед этим CI на PR поднимает Postgres (`supabase db start`), применяет миграции, гоняет pgTAP-тесты (`supabase/tests`) и проверяет, что `packages/core/src/database.types.ts` совпадает с `supabase gen types`.
 
 Настройки сборки лежат в `apps/app/vercel.json` и `apps/api/vercel.json`, а не в дашборде.
 
@@ -30,7 +30,7 @@ Preview пока ходит в production API; отдельные preview-окр
 
 ### Vercel `daybrief-api` (Production + Preview, тип Sensitive)
 
-Нужны с T5/T6, в T2 API работает без них.
+`/health` работает без них. `SUPABASE_URL` и `SUPABASE_SECRET_KEY` нужны с T5 (`GET /me`: проверка JWT по JWKS проекта и чтение профиля), `TOKEN_ENCRYPTION_KEY` и Google — с T6.
 
 | Ключ | Откуда |
 |---|---|
@@ -86,9 +86,20 @@ Authentication → URL Configuration:
 - **Site URL:** `https://daybrief-web.vercel.app`
 - **Redirect URLs:** оставить `http://localhost:8081/**`, добавить `https://daybrief-web.vercel.app/**` и `https://daybrief-web-*-serprok9694-1239s-projects.vercel.app/**` (preview).
 
+## Локальная БД
+
+Нужен Docker (и ~5 ГБ свободного места под образы). CLI берётся через `npx`, версия совпадает с CI.
+
+```bash
+pnpm db:start     # локальный Supabase (API :54321, Studio :54323)
+pnpm db:reset     # пересоздать БД из supabase/migrations
+pnpm db:test      # pgTAP-тесты RLS из supabase/tests
+pnpm db:types     # перегенерировать packages/core/src/database.types.ts после изменения схемы
+```
+
 ## Проверка
 
 - `https://daybrief-api.vercel.app/health` → `{"ok":true}`
 - `https://daybrief-web.vercel.app` открывает приложение.
 - У PR есть preview-ссылки от Vercel в комментарии бота.
-- Actions → DB migrations → Run workflow проходит (`supabase link` + `supabase db push`, при пустых миграциях — no-op).
+- Actions → DB migrations → Run workflow проходит (`supabase link` + `supabase db push --linked`, без новых миграций — no-op).
