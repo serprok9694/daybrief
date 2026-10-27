@@ -1,0 +1,113 @@
+/*
+ * Web-only effects that RN styles cannot express: backdrop blur, layered scene gradients,
+ * keyframe loops. Values come from the theme / scene variables set with vars().
+ * Native gets the same look from expo-blur and resolved styles in the components.
+ */
+
+.dbf-root {
+  -webkit-font-smoothing: antialiased;
+}
+.dbf-root :focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Scenes: stand-ins for the interior photos (tokens.css `.scn`). */
+.dbf-scn {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(48% 42% at 72% 18%, var(--glow), transparent 72%),
+    radial-gradient(34% 22% at 10% 96%, var(--obj), transparent 72%),
+    radial-gradient(26% 16% at 94% 98%, var(--obj), transparent 72%),
+    repeating-linear-gradient(90deg, var(--wood) 0 22px, var(--wood-2) 22px 24px) left top / 9%
+      520px no-repeat,
+    repeating-linear-gradient(90deg, var(--wood) 0 22px, var(--wood-2) 22px 24px) right top / 9%
+      520px no-repeat,
+    linear-gradient(0deg, var(--floor-2), var(--floor)) left bottom / 100% 20% no-repeat,
+    linear-gradient(180deg, var(--wall-a), var(--wall-b));
+}
+.dbf-scn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--scene-photo, none) center / cover;
+  pointer-events: none;
+}
+
+/* Glass */
+.dbf-glass {
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(var(--sat));
+  backdrop-filter: blur(var(--blur)) saturate(var(--sat));
+  box-shadow:
+    var(--shadow-sheet),
+    inset 0 1px 0 var(--hi);
+}
+.dbf-card {
+  -webkit-backdrop-filter: blur(var(--blur-card)) saturate(var(--sat));
+  backdrop-filter: blur(var(--blur-card)) saturate(var(--sat));
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 var(--hi);
+}
+.dbf-shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+/* Interaction */
+.dbf-btn-p:hover {
+  filter: brightness(1.15);
+}
+
+/* Loops */
+.dbf-sk {
+  background: linear-gradient(90deg, var(--sk-a), var(--sk-b), var(--sk-a));
+  background-size: 200% 100%;
+  animation: dbf-sk 1.6s ease-in-out infinite;
+}
+@keyframes dbf-sk {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+.dbf-orb {
+  background: radial-gradient(
+    circle at 30% 28%,
+    #ffebdd 0,
+    #ffb48a 34%,
+    var(--accent) 66%,
+    #9a3412 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 4px 14px -4px var(--accent);
+  animation: dbf-breathe 5s ease-in-out infinite;
+}
+@keyframes dbf-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+.dbf-spin {
+  animation: dbf-spin 1s linear infinite;
+}
+@keyframes dbf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dbf-sk,
+  .dbf-orb,
+  .dbf-spin {
+    animation: none;
+  }
+}

@@ -20,4 +20,4 @@ jobs:
         with:
           version: 2.122.0
       - run: supabase link --project-ref ${{ vars.SUPABASE_PROJECT_REF }}
-      - run: supabase db push
+      - run: supabase db push --linked

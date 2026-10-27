@@ -4,3 +4,4 @@ scripts/
 **/.expo/
 **/dist/
 **/.turbo/
+packages/core/src/database.types.ts
