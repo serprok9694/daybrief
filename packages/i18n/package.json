@@ -1,0 +1,14 @@
+{
+  "name": "@daybrief/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "description": "en/ru dictionaries and i18n setup",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}
