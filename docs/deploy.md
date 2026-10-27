@@ -3,7 +3,7 @@
 | Что | Где | Деплоится |
 |---|---|---|
 | Web (`apps/app`) | Vercel, проект `daybrief-web` | статический Expo web export (`dist/`), SPA |
-| API (`apps/api`) | Vercel, проект `daybrief-api` | Hono, точка входа `src/index.ts` |
+| API (`apps/api`) | Vercel, проект `daybrief-api` | Hono, собранный esbuild в одну функцию (`scripts/build-vercel.mjs` → `.vercel/output`, Build Output API) |
 | БД | Supabase | миграции из `supabase/migrations` через GitHub Actions |
 
 - **Preview:** каждый PR получает preview-деплой обоих проектов (Vercel Git integration). `npx turbo-ignore` пропускает сборку проекта, если его код и зависимости не менялись.
@@ -64,7 +64,7 @@ Preview пока ходит в production API; отдельные preview-окр
 1. https://vercel.com/new → снова Import `serprok9694/daybrief`.
 2. **Project Name:** `daybrief-api`.
 3. **Root Directory:** `apps/api`.
-4. **Framework Preset:** Hono.
+4. **Framework Preset:** любой — `apps/api/vercel.json` переопределяет его на `null` и собирает функцию сам.
 5. Без переменных окружения → **Deploy**.
 6. Settings → Build and Deployment → **Node.js Version: 24.x**.
 

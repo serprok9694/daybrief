@@ -1,4 +1,4 @@
-// Local dev server. On Vercel the app is served from src/index.ts instead.
+// Local dev server. On Vercel the app runs from the bundle built by scripts/build-vercel.mjs.
 import { serve } from '@hono/node-server';
 import app from './index';
 

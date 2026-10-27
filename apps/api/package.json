@@ -9,14 +9,16 @@
     "dev": "tsx watch --env-file-if-exists=.env src/dev.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "node scripts/build-vercel.mjs"
   },
   "dependencies": {
-    "hono": "^4.13.14"
+    "hono": "^4.13.14",
+    "@hono/node-server": "^2.1.5"
   },
   "devDependencies": {
-    "@hono/node-server": "^2.1.5",
     "@types/node": "^24.0.0",
-    "tsx": "^4.23.15"
+    "tsx": "^4.23.15",
+    "esbuild": "^0.28.2"
   }
 }

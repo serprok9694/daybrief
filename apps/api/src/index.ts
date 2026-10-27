@@ -1,5 +1,3 @@
-// Vercel entry point. Vercel's Hono detection requires this file to import 'hono'
-// itself and default-export the app, so routes are mounted here rather than re-exported.
 import { Hono } from 'hono';
 import { routes } from './routes';
 
