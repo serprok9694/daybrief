@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "db:types": "npx -y supabase@2.122.0 gen types typescript --local --workdir ../.. > src/database.types.ts"
   }
 }
