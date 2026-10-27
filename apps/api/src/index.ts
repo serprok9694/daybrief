@@ -1,5 +1,8 @@
-// Vercel entry point: the default export is the Hono app.
-import { app } from './routes';
+import { Hono } from 'hono';
+import { routes } from './routes';
 
-export type { AppType } from './routes';
+const app = new Hono().route('/', routes);
+
+/** Route types for the typed RPC client (`hc<AppType>`) in apps/app. */
+export type AppType = typeof app;
 export default app;
