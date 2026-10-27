@@ -13,7 +13,7 @@ Personal "my day" dashboard: AI day brief, today's events, tasks, important emai
 
 ```
 apps/app        Expo (Expo Router, web + iOS + Android). Routes in src/app/
-apps/api        Hono API, deployed on Vercel. src/app.ts = routes, src/index.ts = Vercel entry, src/dev.ts = local server
+apps/api        Hono API, deployed on Vercel. src/routes.ts = routes, src/index.ts = Vercel entry, src/dev.ts = local server
 packages/core   Domain model and types shared by app, API and the future agent
 packages/connectors  Google integrations: tokens in, core objects out
 packages/ui     Design tokens and UI primitives (from docs/design)
