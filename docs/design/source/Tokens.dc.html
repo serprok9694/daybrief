@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Design tokens</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./daybrief.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="dbf th-light scn sc-day" style="width:1440px;min-height:2100px;padding:40px;display:flex;flex-direction:column;gap:24px">
+  <header class="glass" style="border-radius:40px;padding:32px 40px">
+    <h1 style="font-size:44px;line-height:52px;font-weight:700;letter-spacing:-.02em">Design tokens</h1>
+    <p style="font-size:16px;line-height:24px;color:var(--ink-2);margin-top:6px">Every value is a CSS variable, so one set drives light and dark. Contrast is measured on the worst-case background for each theme (light: the night scene; dark: the day scene), and all text pairs pass WCAG AA.</p>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:24px;align-items:start">
+    <sc-for list="{{themes}}" as="th" hint-placeholder-count="2">
+      <section class="dbf th-{{th.id}} scn sc-{{th.bg}}" style="border-radius:40px;padding:24px">
+        <div class="glass" style="border-radius:32px;padding:28px;display:flex;flex-direction:column;gap:20px">
+          <h2 style="font-size:24px;line-height:30px;font-weight:700">{{th.title}}</h2>
+          <ul>
+            <sc-for list="{{th.colors}}" as="s" hint-placeholder-count="8">
+              <li style="display:grid;grid-template-columns:44px minmax(0, 1fr) auto;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line)">
+                <span style="width:44px;height:44px;border-radius:14px;background:{{s.css}};border:1px solid var(--line)"></span>
+                <div style="min-width:0"><div class="li-t">{{s.name}} <span class="mono li-s li-s3">{{s.v}}</span></div><div class="li-s">{{s.use}}</div></div>
+                <div style="text-align:right"><div class="mono" style="font-size:13px;line-height:18px;font-weight:700">{{s.val}}</div><div class="li-s li-s3">{{s.ratio}}</div></div>
+              </li>
+            </sc-for>
+          </ul>
+          <h3 style="font-size:17px;line-height:24px;font-weight:700;margin-top:6px">{{t.glass}}</h3>
+          <ul>
+            <sc-for list="{{th.glass}}" as="g" hint-placeholder-count="6">
+              <li style="display:grid;grid-template-columns:150px minmax(0, 1fr);gap:14px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;line-height:18px">
+                <span class="mono li-s3" style="font-weight:700">{{g.k}}</span><span class="mono">{{g.v}}</span>
+              </li>
+            </sc-for>
+          </ul>
+        </div>
+      </section>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:24px;align-items:start">
+    <section class="card w">
+      <h2 class="wt">{{t.type}}</h2>
+      <p class="li-s">{{t.font}}</p>
+      <ul>
+        <sc-for list="{{types}}" as="y" hint-placeholder-count="8">
+          <li style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line)">
+            <span style="font-size:{{y.px}}px;line-height:{{y.lh}}px;font-weight:{{y.w}};letter-spacing:{{y.ls}}">{{y.name}}</span>
+            <span class="mono li-s li-s3" style="white-space:nowrap">{{y.spec}}</span>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+
+    <section class="card w">
+      <h2 class="wt">{{t.shape}}</h2>
+      <ul>
+        <sc-for list="{{radii}}" as="r" hint-placeholder-count="4">
+          <li style="display:flex;align-items:center;gap:14px;padding:9px 0;border-top:1px solid var(--line)">
+            <span style="width:56px;height:40px;background:var(--fill-2);border:1px solid var(--line);border-radius:{{r.px}}px"></span>
+            <span class="li-t" style="flex:1">{{r.name}}</span><span class="mono li-s li-s3">{{r.val}}</span>
+          </li>
+        </sc-for>
+      </ul>
+      <h3 style="font-size:15px;line-height:22px;font-weight:700;margin-top:8px">{{t.space}}</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end">
+        <sc-for list="{{spaces}}" as="sp" hint-placeholder-count="8">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="display:block;width:{{sp}}px;height:{{sp}}px;background:var(--accent);border-radius:4px"></span><span class="mono li-s li-s3">{{sp}}</span></div>
+        </sc-for>
+      </div>
+      <h3 style="font-size:15px;line-height:22px;font-weight:700;margin-top:8px">{{t.shadow}}</h3>
+      <p class="li-s mono" style="word-break:break-all">{{t.shadowSheet}}</p>
+      <p class="li-s mono" style="word-break:break-all">{{t.shadowCard}}</p>
+    </section>
+
+    <section class="card w">
+      <h2 class="wt">{{t.scenes}}</h2>
+      <p class="li-s">{{t.scenesSub}}</p>
+      <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:12px">
+        <sc-for list="{{scenes}}" as="sc" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:6px"><span class="scn {{sc.cls}}" style="display:block;height:96px;border-radius:20px;border:1px solid var(--line)"></span><span class="li-t">{{sc.name}}</span><span class="li-s li-s3">{{sc.when}}</span></div>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+
+  <section class="card w">
+    <h2 class="wt">{{t.tw}}</h2>
+    <pre class="mono" style="margin:0;font-size:13px;line-height:20px;white-space:pre;overflow-x:auto;color:var(--ink)">{{tw}}</pre>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const themes = [
+      {
+        id: 'light', bg: 'day', title: 'Light',
+        colors: [
+          { name: 'Ink', v: '--ink', css: '#1F1B18', val: '#1F1B18', use: 'Primary text', ratio: '11.7 : 1' },
+          { name: 'Ink 2', v: '--ink-2', css: '#4A423B', val: '#4A423B', use: 'Secondary text', ratio: '6.8 : 1' },
+          { name: 'Ink 3', v: '--ink-3', css: '#5A5149', val: '#5A5149', use: 'Captions and timestamps', ratio: '5.3 : 1' },
+          { name: 'Accent', v: '--accent', css: '#E4572A', val: '#E4572A', use: 'Now / important: dots, rings (never text)', ratio: 'non-text' },
+          { name: 'Accent ink', v: '--accent-ink', css: '#8F2A06', val: '#8F2A06', use: 'Accent text on the soft chip', ratio: '5.1 : 1' },
+          { name: 'Accent solid', v: '--accent-solid', css: '#B93A12', val: '#B93A12', use: 'Solid chip, white text', ratio: '5.7 : 1' },
+          { name: 'Primary button', v: '--btn-p-bg', css: '#17130F', val: '#17130F', use: 'Black pill, white label', ratio: '18.5 : 1' },
+          { name: 'Sheet plate', v: '--sheet-bg', css: 'rgba(255,250,244,.56)', val: '255 250 244 / .56', use: 'Large glass panel', ratio: '' },
+          { name: 'Card plate', v: '--card-bg', css: 'rgba(255,252,248,.62)', val: '255 252 248 / .62', use: 'Widget card on the sheet', ratio: '' }
+        ],
+        glass: [
+          { k: 'blur sheet / card', v: '40px / 24px' }, { k: 'saturate', v: '1.5' },
+          { k: 'stroke', v: 'rgba(255,255,255,.70) · card .80' }, { k: 'top highlight', v: 'inset 0 1px 0 rgba(255,255,255,.85)' },
+          { k: 'lite blur', v: '10px / 6px (Android)' }, { k: 'lite plate', v: 'sheet .84 · card .88' }
+        ]
+      },
+      {
+        id: 'dark', bg: 'night', title: 'Dark',
+        colors: [
+          { name: 'Ink', v: '--ink', css: '#F6F0E9', val: '#F6F0E9', use: 'Primary text', ratio: '9.1 : 1' },
+          { name: 'Ink 2', v: '--ink-2', css: '#DDD3C8', val: '#DDD3C8', use: 'Secondary text', ratio: '7.0 : 1' },
+          { name: 'Ink 3', v: '--ink-3', css: '#C4B9AD', val: '#C4B9AD', use: 'Captions and timestamps', ratio: '5.4 : 1' },
+          { name: 'Accent', v: '--accent', css: '#FF8A57', val: '#FF8A57', use: 'Now / important: dots, rings (never text)', ratio: 'non-text' },
+          { name: 'Accent ink', v: '--accent-ink', css: '#FFB08A', val: '#FFB08A', use: 'Accent text on the soft chip', ratio: '4.8 : 1' },
+          { name: 'Accent solid', v: '--accent-solid', css: '#FF9A6A', val: '#FF9A6A', use: 'Solid chip, dark label', ratio: '8.9 : 1' },
+          { name: 'Primary button', v: '--btn-p-bg', css: '#F6F0E9', val: '#F6F0E9', use: 'Inverted: light pill, dark label', ratio: '16.3 : 1' },
+          { name: 'Sheet plate', v: '--sheet-bg', css: 'rgba(34,28,24,.72)', val: '34 28 24 / .72', use: 'Large glass panel', ratio: '' },
+          { name: 'Card plate', v: '--card-bg', css: 'rgba(52,44,38,.60)', val: '52 44 38 / .60', use: 'Widget card on the sheet', ratio: '' }
+        ],
+        glass: [
+          { k: 'blur sheet / card', v: '40px / 24px' }, { k: 'saturate', v: '1.4' },
+          { k: 'stroke', v: 'rgba(255,255,255,.14) · card .12' }, { k: 'top highlight', v: 'inset 0 1px 0 rgba(255,255,255,.14)' },
+          { k: 'lite blur', v: '10px / 6px (Android)' }, { k: 'lite plate', v: 'sheet .88 · card .82' }
+        ]
+      }
+    ];
+    const types = [
+      { name: 'Greeting', px: 30, lh: 36, w: 700, ls: '-0.02em', spec: '44/52 · 700 · mobile 30/36' },
+      { name: 'Day brief', px: 24, lh: 32, w: 500, ls: '-0.01em', spec: '26/38 · 500 · mobile 20/29' },
+      { name: 'Idea', px: 20, lh: 28, w: 700, ls: '-0.01em', spec: '22/30 · 700 · mobile 19/27' },
+      { name: 'Widget title', px: 17, lh: 24, w: 700, ls: '0', spec: '17/24 · 700' },
+      { name: 'Body', px: 15, lh: 22, w: 500, ls: '0', spec: '15/22 · 500' },
+      { name: 'Secondary', px: 13, lh: 18, w: 500, ls: '0', spec: '13/18 · 500' },
+      { name: 'Caption, chip', px: 12, lh: 16, w: 700, ls: '0', spec: '12/16 · 700' }
+    ];
+    const radii = [
+      { name: 'Sheet', px: 40, val: '40 px' }, { name: 'Card', px: 28, val: '28 px' },
+      { name: 'Row, field', px: 16, val: '16 px' }, { name: 'Pill: button, chip, input', px: 999, val: '999 px' }
+    ];
+    const scenes = [
+      { name: 'Morning', cls: 'sc-morning', when: '05:00 – 11:00' }, { name: 'Day', cls: 'sc-day', when: '11:00 – 17:00' },
+      { name: 'Evening', cls: 'sc-evening', when: '17:00 – 22:00' }, { name: 'Night', cls: 'sc-night', when: '22:00 – 05:00' }
+    ];
+    const tw = [
+      '// tailwind.config.js (NativeWind): values come from CSS variables, so the theme class does the switching',
+      'theme: { extend: {',
+      '  colors: {',
+      '    ink: { DEFAULT: "var(--ink)", 2: "var(--ink-2)", 3: "var(--ink-3)" },',
+      '    accent: { DEFAULT: "var(--accent)", ink: "var(--accent-ink)", soft: "var(--accent-soft)", solid: "var(--accent-solid)" },',
+      '    plate: { sheet: "var(--sheet-bg)", card: "var(--card-bg)" },',
+      '    fill: { DEFAULT: "var(--fill)", 2: "var(--fill-2)" },',
+      '  },',
+      '  borderRadius: { sheet: "40px", card: "28px", row: "16px" },',
+      '  fontFamily: { sans: ["Manrope", "system-ui"] },',
+      '} }'
+    ].join('\n');
+    return {
+      themes, types, radii, scenes, tw,
+      spaces: [4, 8, 12, 16, 20, 24, 32, 44],
+      t: {
+        glass: 'Glass', type: 'Type', font: 'Manrope in three weights (400, 500, 700), Latin and Cyrillic.',
+        shape: 'Radii, spacing, shadow', space: 'Spacing scale (px)', shadow: 'Shadows',
+        shadowSheet: 'sheet: 0 40px 80px -36px rgba(45,28,12,.50)', shadowCard: 'card: 0 14px 32px -18px rgba(60,38,18,.35)',
+        scenes: 'Backgrounds', scenesSub: 'CSS stand-ins for the interior photos. The photo goes into --scene-photo.',
+        tw: 'Moving to tailwind.config / packages/ui'
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

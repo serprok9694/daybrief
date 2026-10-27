@@ -1,0 +1,107 @@
+{
+  "$description": "UI strings from the v1 design. {placeholders} are runtime values. Sample data (event titles, senders) is not included.",
+  "en": {
+    "common": {
+      "updatedAgo": "Updated {minutes} min ago",
+      "refresh": "Refresh",
+      "retry": "Try again",
+      "errorTitle": "Couldn’t refresh",
+      "errorHint": "Check your connection and try again.",
+      "showMore": "Show {count} more",
+      "notifications": "Notifications, {count} new",
+      "openSettings": "Open settings"
+    },
+    "greeting": { "morning": "Good morning, {name}", "day": "Good afternoon, {name}", "evening": "Good evening, {name}", "night": "Good evening, {name}" },
+    "command": { "label": "Command bar", "placeholder": "Capture an idea…", "saved": "Idea saved" },
+    "summary": { "title": "Day brief", "generatedAt": "Generated {time}", "loading": "Writing your day brief" },
+    "events": {
+      "title": "Today’s events", "startsIn": "in {minutes} min", "free": "Free {from}–{to}",
+      "open": "Open in Google Calendar", "empty": "No meetings today — the day is yours", "loading": "Loading events"
+    },
+    "tasks": {
+      "title": "Tasks", "overdue": "Overdue", "today": "Today", "overdueBy": "Overdue · {days, plural, one {# day} other {# days}}",
+      "open": "Open in Google Tasks", "empty": "No tasks for today", "loading": "Loading tasks"
+    },
+    "mail": {
+      "title": "Important emails", "needsReply": "Needs reply", "open": "Open in Gmail", "empty": "Nothing important", "loading": "Loading emails",
+      "connectTitle": "Connect your email", "connectBody": "daybrief picks out the emails that matter and writes a short summary of each.",
+      "connectCta": "Connect email", "privacy": "Read-only. We never store message bodies."
+    },
+    "idea": {
+      "title": "Idea of the day", "capturedAgo": "Captured {days} days ago", "suggestion": "You’re free {from}–{to} — maybe dig into this?",
+      "notNow": "Not now", "done": "Done", "loading": "Loading idea",
+      "emptyTitle": "Capture your first idea", "emptyBody": "Type it in the bar above, or send it from Notes with the “Send to daybrief” Shortcut."
+    },
+    "signIn": {
+      "title": "Your whole day in ten seconds",
+      "body": "Meetings, tasks, the emails that matter and one idea worth returning to — in a single calm view.",
+      "cta": "Sign in with Google",
+      "points": ["Calendar and tasks are read-only. daybrief never changes your Google data.", "Email is connected later, separately, only if you choose to.", "We never store the text of your emails."],
+      "language": "Language"
+    },
+    "settings": {
+      "title": "Settings", "subtitle": "Language, background, connected accounts and tokens for Shortcuts.", "back": "Back to dashboard",
+      "language": "Language", "languageHint": "Used for the interface, the day brief and email summaries.",
+      "background": "Background", "backgroundHint": "Follows the time of day, or pick one and keep it.",
+      "scenes": { "auto": "Auto", "morning": "Morning", "day": "Day", "evening": "Evening", "night": "Night" },
+      "accounts": "Connected accounts", "googleName": "Google · Calendar and Tasks", "readOnly": "read-only",
+      "gmailHint": "Read-only. Message bodies are never stored.",
+      "connected": "Connected", "notConnected": "Not connected", "connect": "Connect", "disconnect": "Disconnect",
+      "tokens": "API tokens", "tokensHint": "Let Apple Shortcuts send ideas to daybrief with", "newToken": "New token", "revoke": "Revoke",
+      "usedToday": "used today", "usedDaysAgo": "used {days} days ago"
+    },
+    "states": { "notApplicable": "Not applicable" }
+  },
+  "ru": {
+    "common": {
+      "updatedAgo": "Обновлено {minutes} мин назад",
+      "refresh": "Обновить",
+      "retry": "Повторить",
+      "errorTitle": "Не удалось обновить",
+      "errorHint": "Проверь соединение и попробуй ещё раз.",
+      "showMore": "Показать ещё {count}",
+      "notifications": "Уведомления, новых: {count}",
+      "openSettings": "Открыть настройки"
+    },
+    "greeting": { "morning": "Доброе утро, {name}", "day": "Добрый день, {name}", "evening": "Добрый вечер, {name}", "night": "Добрый вечер, {name}" },
+    "command": { "label": "Командная строка", "placeholder": "Запиши идею…", "saved": "Идея сохранена" },
+    "summary": { "title": "Сводка дня", "generatedAt": "Собрана в {time}", "loading": "Пишу сводку дня" },
+    "events": {
+      "title": "События сегодня", "startsIn": "через {minutes} мин", "free": "Свободно {from}–{to}",
+      "open": "Открыть в Google Календаре", "empty": "Сегодня без встреч — день твой", "loading": "Загружаю события"
+    },
+    "tasks": {
+      "title": "Задачи", "overdue": "Просрочено", "today": "Сегодня", "overdueBy": "Просрочено · {days} дн.",
+      "open": "Открыть в Google Задачах", "empty": "Задач на сегодня нет", "loading": "Загружаю задачи"
+    },
+    "mail": {
+      "title": "Важные письма", "needsReply": "Нужен ответ", "open": "Открыть в Gmail", "empty": "Ничего важного", "loading": "Загружаю письма",
+      "connectTitle": "Подключить почту", "connectBody": "daybrief выберет важные письма и коротко перескажет каждое.",
+      "connectCta": "Подключить почту", "privacy": "Только чтение. Тела писем не храним."
+    },
+    "idea": {
+      "title": "Идея дня", "capturedAgo": "Записана {days} дней назад", "suggestion": "У тебя свободно {from}–{to} — может, поисследовать?",
+      "notNow": "Не сейчас", "done": "Готово", "loading": "Загружаю идею",
+      "emptyTitle": "Запиши первую идею", "emptyBody": "Набери её в строке выше или отправь из Заметок через команду «Send to daybrief»."
+    },
+    "signIn": {
+      "title": "Весь твой день за десять секунд",
+      "body": "Встречи, задачи, важные письма и одна идея, к которой стоит вернуться, — в одном спокойном экране.",
+      "cta": "Войти через Google",
+      "points": ["Календарь и задачи только для чтения. daybrief не меняет твои данные в Google.", "Почта подключается позже и отдельно, только если ты этого захочешь.", "Тексты писем мы не храним."],
+      "language": "Язык"
+    },
+    "settings": {
+      "title": "Настройки", "subtitle": "Язык, фон, подключённые аккаунты и токены для Shortcuts.", "back": "Назад к дашборду",
+      "language": "Язык", "languageHint": "Для интерфейса, сводки дня и выжимок из писем.",
+      "background": "Фон", "backgroundHint": "Меняется в зависимости от времени суток или закреплён выбранный.",
+      "scenes": { "auto": "Авто", "morning": "Утро", "day": "День", "evening": "Вечер", "night": "Ночь" },
+      "accounts": "Подключённые аккаунты", "googleName": "Google · Календарь и Задачи", "readOnly": "только чтение",
+      "gmailHint": "Только чтение. Тела писем не храним.",
+      "connected": "Подключено", "notConnected": "Не подключено", "connect": "Подключить", "disconnect": "Отключить",
+      "tokens": "API-токены", "tokensHint": "Чтобы Apple Shortcuts отправляли идеи в daybrief через", "newToken": "Новый токен", "revoke": "Отозвать",
+      "usedToday": "использован сегодня", "usedDaysAgo": "использован {days} дн. назад"
+    },
+    "states": { "notApplicable": "Не применимо" }
+  }
+}

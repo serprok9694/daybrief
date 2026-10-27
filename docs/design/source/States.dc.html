@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Widget states</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./daybrief.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="dbf th-{{theme}} scn sc-{{bg}}" style="width:2060px;min-height:2300px;padding:40px">
+  <div style="display:grid;grid-template-columns:100px repeat(5, minmax(0, 1fr));column-gap:16px;row-gap:24px;align-items:start">
+
+    <div></div>
+    <sc-for list="{{cols}}" as="c" hint-placeholder-count="5">
+      <h2 class="glass" style="margin:0;padding:10px 18px;border-radius:999px;font-size:15px;line-height:22px;font-weight:700;text-align:center">{{c}}</h2>
+    </sc-for>
+
+    <h3 class="glass" style="margin:0;padding:12px 10px;border-radius:20px;font-size:14px;line-height:20px;font-weight:700;text-align:center">{{t.rSummary}}</h3>
+    <dc-import name="SummaryWidget" theme="{{theme}}" lang="{{lang}}" status="data" stage="{{ false }}" hint-size="100%,170px"></dc-import>
+    <dc-import name="SummaryWidget" theme="{{theme}}" lang="{{lang}}" status="loading" stage="{{ false }}" hint-size="100%,170px"></dc-import>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.na}}</div>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.hidden}}</div>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.na}}</div>
+
+    <h3 class="glass" style="margin:0;padding:12px 10px;border-radius:20px;font-size:14px;line-height:20px;font-weight:700;text-align:center">{{t.rEvents}}</h3>
+    <dc-import name="EventsWidget" theme="{{theme}}" lang="{{lang}}" status="data" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="EventsWidget" theme="{{theme}}" lang="{{lang}}" status="loading" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="EventsWidget" theme="{{theme}}" lang="{{lang}}" status="empty" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="EventsWidget" theme="{{theme}}" lang="{{lang}}" status="error" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.na}}</div>
+
+    <h3 class="glass" style="margin:0;padding:12px 10px;border-radius:20px;font-size:14px;line-height:20px;font-weight:700;text-align:center">{{t.rTasks}}</h3>
+    <dc-import name="TasksWidget" theme="{{theme}}" lang="{{lang}}" status="data" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="TasksWidget" theme="{{theme}}" lang="{{lang}}" status="loading" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="TasksWidget" theme="{{theme}}" lang="{{lang}}" status="empty" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="TasksWidget" theme="{{theme}}" lang="{{lang}}" status="error" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.na}}</div>
+
+    <h3 class="glass" style="margin:0;padding:12px 10px;border-radius:20px;font-size:14px;line-height:20px;font-weight:700;text-align:center">{{t.rMail}}</h3>
+    <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="data" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="loading" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="empty" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="error" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+    <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="off" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+
+    <h3 class="glass" style="margin:0;padding:12px 10px;border-radius:20px;font-size:14px;line-height:20px;font-weight:700;text-align:center">{{t.rIdea}}</h3>
+    <dc-import name="IdeaWidget" theme="{{theme}}" lang="{{lang}}" status="data" stage="{{ false }}" hint-size="100%,260px"></dc-import>
+    <dc-import name="IdeaWidget" theme="{{theme}}" lang="{{lang}}" status="loading" stage="{{ false }}" hint-size="100%,260px"></dc-import>
+    <dc-import name="IdeaWidget" theme="{{theme}}" lang="{{lang}}" status="empty" stage="{{ false }}" hint-size="100%,260px"></dc-import>
+    <dc-import name="IdeaWidget" theme="{{theme}}" lang="{{lang}}" status="error" stage="{{ false }}" hint-size="100%,260px"></dc-import>
+    <div class="card" style="padding:20px;display:grid;place-items:center;min-height:120px;border-style:dashed;color:var(--ink-2);font-size:13px;line-height:19px;text-align:center">{{t.na}}</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"lang":{"editor":"enum","options":["en","ru"],"default":"en"},"bg":{"editor":"enum","options":["morning","day","evening","night"],"default":"morning"},"$preview":{"width":2060,"height":2300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const lang = p.lang === 'ru' ? 'ru' : 'en';
+    const theme = p.theme === 'dark' ? 'dark' : 'light';
+    const bg = ['morning', 'day', 'evening', 'night'].includes(p.bg) ? p.bg : 'morning';
+    const T = {
+      en: {
+        cols: ['Data', 'Loading', 'Empty', 'Error', 'Not connected'],
+        rSummary: 'Day brief', rEvents: 'Events', rTasks: 'Tasks', rMail: 'Emails', rIdea: 'Idea of the day',
+        na: 'Not applicable', hidden: 'Hidden: the rest of the screen stays intact'
+      },
+      ru: {
+        cols: ['Данные', 'Загрузка', 'Пусто', 'Ошибка', 'Не подключено'],
+        rSummary: 'Сводка дня', rEvents: 'События', rTasks: 'Задачи', rMail: 'Письма', rIdea: 'Идея дня',
+        na: 'Не применимо', hidden: 'Скрыто: остальной экран не ломается'
+      }
+    }[lang];
+    return { theme, lang, bg, t: T, cols: T.cols };
+  }
+}
+</script>
+</body>
+</html>

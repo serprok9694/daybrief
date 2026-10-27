@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>daybrief dashboard</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./daybrief.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="dbf dash th-{{theme}} scn sc-{{bg}} {{liteCls}}">
+  <!-- column 1 of the grid is the reserved left-rail slot (--rail-w: 0 in v1) -->
+  <div class="dash-main">
+    <header class="glass bar">
+      <div class="bar-l">
+        <a class="av av-me" href="Settings.dc.html" aria-label="{{t.settings}}">{{t.initial}}</a>
+        <span class="who">{{t.name}}</span>
+      </div>
+      <div class="cmd cmd-top">
+        <span class="orb" aria-hidden="true"></span>
+        <input type="text" aria-label="{{t.cmdLabel}}" placeholder="{{t.cmdPh}}">
+        <kbd aria-hidden="true">↵</kbd>
+      </div>
+      <div class="bar-r">
+        <button class="ib ib-bell" aria-label="{{t.bell}}">
+          <svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+          <span class="dot-new"></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="glass sheet">
+      <div class="hello">
+        <h1>{{t.hello}}</h1>
+        <p>{{t.date}}</p>
+      </div>
+
+      <dc-import name="SummaryWidget" theme="{{theme}}" lang="{{lang}}" status="{{summaryStatus}}" lite="{{lite}}" stage="{{ false }}" hint-size="100%,170px"></dc-import>
+
+      <div class="grid3">
+        <dc-import name="EventsWidget" theme="{{theme}}" lang="{{lang}}" status="{{eventsStatus}}" lite="{{lite}}" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+        <dc-import name="TasksWidget" theme="{{theme}}" lang="{{lang}}" status="{{tasksStatus}}" lite="{{lite}}" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+        <dc-import name="MailWidget" theme="{{theme}}" lang="{{lang}}" status="{{mailStatus}}" lite="{{lite}}" stage="{{ false }}" hint-size="100%,420px"></dc-import>
+      </div>
+
+      <dc-import name="IdeaWidget" theme="{{theme}}" lang="{{lang}}" status="{{ideaStatus}}" lite="{{lite}}" stage="{{ false }}" hint-size="100%,170px"></dc-import>
+    </main>
+
+    <!-- mobile only: command bar pinned within thumb reach -->
+    <div class="glass cmd-dock">
+      <div class="cmd">
+        <span class="orb" aria-hidden="true"></span>
+        <input type="text" aria-label="{{t.cmdLabel}}" placeholder="{{t.cmdPh}}">
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light","section":"View"},"lang":{"editor":"enum","options":["en","ru"],"default":"en","section":"View"},"bg":{"editor":"enum","options":["morning","day","evening","night"],"default":"morning","section":"View"},"glass":{"editor":"enum","options":["full","lite"],"default":"full","section":"View"},"summaryStatus":{"editor":"enum","options":["data","loading","error"],"default":"data","section":"Widget states"},"eventsStatus":{"editor":"enum","options":["data","loading","empty","error"],"default":"data","section":"Widget states"},"tasksStatus":{"editor":"enum","options":["data","loading","empty","error"],"default":"data","section":"Widget states"},"mailStatus":{"editor":"enum","options":["data","loading","empty","error","off"],"default":"data","section":"Widget states"},"ideaStatus":{"editor":"enum","options":["data","loading","empty","error"],"default":"data","section":"Widget states"},"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const lang = p.lang === 'ru' ? 'ru' : 'en';
+    const theme = p.theme === 'dark' ? 'dark' : 'light';
+    const bg = ['morning', 'day', 'evening', 'night'].includes(p.bg) ? p.bg : 'morning';
+    const lite = p.glass === 'lite' || p.lite === true;
+    const S = {
+      en: {
+        name: 'Siarhei', initial: 'S', settings: 'Open settings', bell: 'Notifications, 1 new',
+        cmdLabel: 'Command bar', cmdPh: 'Capture an idea…',
+        date: 'Tuesday, October 27',
+        greet: { morning: 'Good morning', day: 'Good afternoon', evening: 'Good evening', night: 'Good evening' }
+      },
+      ru: {
+        name: 'Сергей', initial: 'С', settings: 'Открыть настройки', bell: 'Уведомления, 1 новое',
+        cmdLabel: 'Командная строка', cmdPh: 'Запиши идею…',
+        date: 'вторник, 27 октября',
+        greet: { morning: 'Доброе утро', day: 'Добрый день', evening: 'Добрый вечер', night: 'Добрый вечер' }
+      }
+    }[lang];
+    return {
+      theme, lang, bg, lite,
+      liteCls: lite ? 'lite' : '',
+      summaryStatus: p.summaryStatus ?? 'data',
+      eventsStatus: p.eventsStatus ?? 'data',
+      tasksStatus: p.tasksStatus ?? 'data',
+      mailStatus: p.mailStatus ?? 'data',
+      ideaStatus: p.ideaStatus ?? 'data',
+      t: { ...S, hello: S.greet[bg] + ', ' + S.name }
+    };
+  }
+}
+</script>
+</body>
+</html>

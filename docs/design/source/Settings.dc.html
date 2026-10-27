@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./daybrief.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="dbf th-{{theme}} scn sc-{{bg}}" style="width:1440px;min-height:1000px;padding:24px 40px">
+  <header class="glass" style="display:flex;align-items:center;gap:12px;height:64px;padding:0 10px;border-radius:999px">
+    <a class="ib ib-bell" href="Main.dc.html" aria-label="{{t.back}}"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></a>
+    <span class="who">{{t.name}}</span>
+  </header>
+
+  <main class="glass sheet" style="margin-top:24px">
+    <div class="hello"><h1>{{t.h1}}</h1><p>{{t.sub}}</p></div>
+
+    <div class="grid3" style="grid-template-columns:repeat(auto-fit, minmax(min(560px, 100%), 1fr))">
+
+      <section class="card w" aria-labelledby="s-lang">
+        <div class="wh"><span class="wi"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span><h2 class="wt" id="s-lang">{{t.lang}}</h2></div>
+        <p class="li-s">{{t.langSub}}</p>
+        <div class="seg" role="group" aria-label="{{t.lang}}" style="align-self:flex-start">
+          <button aria-pressed="{{enOn}}">English</button>
+          <button aria-pressed="{{ruOn}}">Русский</button>
+        </div>
+      </section>
+
+      <section class="card w" aria-labelledby="s-bg">
+        <div class="wh"><span class="wi"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span><h2 class="wt" id="s-bg">{{t.bg}}</h2></div>
+        <p class="li-s">{{t.bgSub}}</p>
+        <div class="bgpick" role="group" aria-label="{{t.bg}}">
+          <button aria-pressed="true"><span class="th scn sc-morning" style="background-image:linear-gradient(90deg,#EAD9C2 0%,#EAD9C2 25%,#F2EADF 25%,#F2EADF 50%,#D9A57C 50%,#D9A57C 75%,#2E2723 75%,#2E2723 100%)"></span><span class="nm"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{{t.auto}}</span></button>
+          <button aria-pressed="false"><span class="th scn sc-morning"></span><span class="nm">{{t.morning}}</span></button>
+          <button aria-pressed="false"><span class="th scn sc-day"></span><span class="nm">{{t.day}}</span></button>
+          <button aria-pressed="false"><span class="th scn sc-evening"></span><span class="nm">{{t.evening}}</span></button>
+          <button aria-pressed="false"><span class="th scn sc-night"></span><span class="nm">{{t.night}}</span></button>
+        </div>
+      </section>
+
+      <section class="card w" aria-labelledby="s-acc">
+        <div class="wh"><span class="wi"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg></span><h2 class="wt" id="s-acc">{{t.acc}}</h2></div>
+        <ul class="wl">
+          <li class="li" style="align-items:center">
+            <span class="av av-sm av1" aria-hidden="true">G</span>
+            <div class="li-body"><div class="li-t">{{t.gName}}</div><div class="li-s ell">{{t.gSub}}</div></div>
+            <span class="chip chip-n"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>{{t.connected}}</span>
+            <button class="btn btn-g btn-sm">{{t.disconnect}}</button>
+          </li>
+          <li class="li row-sep" style="align-items:center">
+            <span class="av av-sm av4" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <div class="li-body"><div class="li-t">{{t.mName}}</div><div class="li-s">{{t.mSub}}</div></div>
+            <span class="chip chip-n"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>{{t.notConnected}}</span>
+            <button class="btn btn-p btn-sm">{{t.connect}}</button>
+          </li>
+        </ul>
+      </section>
+
+      <section class="card w" aria-labelledby="s-tok">
+        <div class="wh">
+          <span class="wi"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5"/></svg></span>
+          <h2 class="wt" id="s-tok">{{t.tok}}</h2>
+          <button class="btn btn-p btn-sm"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>{{t.newTok}}</button>
+        </div>
+        <p class="li-s">{{t.tokSub}} <span class="mono" style="font-weight:700;color:var(--ink)">POST /ideas</span></p>
+        <ul class="wl">
+          <sc-for list="{{tokens}}" as="k" hint-placeholder-count="2">
+            <li class="li row-sep" style="align-items:center">
+              <div class="li-body"><div class="li-t">{{k.name}}</div><div class="li-s li-s3"><span class="mono">{{k.mask}}</span> · {{k.used}}</div></div>
+              <button class="btn btn-g btn-sm"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>{{t.revoke}}</button>
+            </li>
+          </sc-for>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"lang":{"editor":"enum","options":["en","ru"],"default":"en"},"bg":{"editor":"enum","options":["morning","day","evening","night"],"default":"morning"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const lang = p.lang === 'ru' ? 'ru' : 'en';
+    const theme = p.theme === 'dark' ? 'dark' : 'light';
+    const bg = ['morning', 'day', 'evening', 'night'].includes(p.bg) ? p.bg : 'morning';
+    const T = {
+      en: {
+        back: 'Back to dashboard', name: 'Siarhei',
+        h1: 'Settings', sub: 'Language, background, connected accounts and tokens for Shortcuts.',
+        lang: 'Language', langSub: 'Used for the interface, the day brief and email summaries.',
+        bg: 'Background', bgSub: 'Follows the time of day, or pick one and keep it.',
+        auto: 'Auto', morning: 'Morning', day: 'Day', evening: 'Evening', night: 'Night',
+        acc: 'Connected accounts',
+        gName: 'Google · Calendar and Tasks', gSub: 'name@gmail.com · read-only',
+        mName: 'Gmail', mSub: 'Read-only. Message bodies are never stored.',
+        connected: 'Connected', notConnected: 'Not connected', disconnect: 'Disconnect', connect: 'Connect',
+        tok: 'API tokens', newTok: 'New token', revoke: 'Revoke',
+        tokSub: 'Let Apple Shortcuts send ideas to daybrief with',
+        tokens: [
+          { name: 'iPhone · Send to daybrief', mask: 'dbf_••••••a91c', used: 'used today' },
+          { name: 'Mac · Daily Ideas list', mask: 'dbf_••••••07fe', used: 'used 3 days ago' }
+        ]
+      },
+      ru: {
+        back: 'Назад к дашборду', name: 'Сергей',
+        h1: 'Настройки', sub: 'Язык, фон, подключённые аккаунты и токены для Shortcuts.',
+        lang: 'Язык', langSub: 'Для интерфейса, сводки дня и выжимок из писем.',
+        bg: 'Фон', bgSub: 'Меняется в зависимости от времени суток или закреплён выбранный.',
+        auto: 'Авто', morning: 'Утро', day: 'День', evening: 'Вечер', night: 'Ночь',
+        acc: 'Подключённые аккаунты',
+        gName: 'Google · Календарь и Задачи', gSub: 'name@gmail.com · только чтение',
+        mName: 'Gmail', mSub: 'Только чтение. Тела писем не храним.',
+        connected: 'Подключено', notConnected: 'Не подключено', disconnect: 'Отключить', connect: 'Подключить',
+        tok: 'API-токены', newTok: 'Новый токен', revoke: 'Отозвать',
+        tokSub: 'Чтобы Apple Shortcuts отправляли идеи в daybrief через',
+        tokens: [
+          { name: 'iPhone · Send to daybrief', mask: 'dbf_••••••a91c', used: 'использован сегодня' },
+          { name: 'Mac · Список «Ideas»', mask: 'dbf_••••••07fe', used: 'использован 3 дня назад' }
+        ]
+      }
+    }[lang];
+    return { theme, bg, t: T, tokens: T.tokens, enOn: lang === 'en', ruOn: lang === 'ru' };
+  }
+}
+</script>
+</body>
+</html>

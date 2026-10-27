@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Events widget</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./daybrief.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="{{rootCls}}" style="{{rootStyle}}">
+  <section class="card w" style="height:100%" aria-labelledby="ev-h">
+    <div class="wh">
+      <span class="wi"><svg class="ic ic-lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span>
+      <h2 class="wt" id="ev-h">{{t.title}}</h2>
+      <span class="wm">{{t.updated}}</span>
+      <button class="ib {{spinCls}}" aria-label="{{t.refresh}}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></button>
+    </div>
+
+    <sc-if value="{{isData}}" hint-placeholder-val="{{ true }}">
+      <ul class="wl">
+        <sc-for list="{{events}}" as="e" hint-placeholder-count="4">
+          <li>
+            <sc-if value="{{e.gap}}">
+              <div class="ev-free"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>{{e.label}}</div>
+            </sc-if>
+            <sc-if value="{{e.isEvent}}">
+              <a class="{{e.cls}}" href="#">
+                <div><div class="ev-time">{{e.time}}</div><div class="ev-dur">{{e.dur}}</div></div>
+                <div class="rl" aria-hidden="true"><i></i></div>
+                <div class="li-body">
+                  <div class="li-t">{{e.title}}</div>
+                  <div class="ev-meta">
+                    <sc-if value="{{e.hasVideo}}"><span class="vid"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>{{e.video}}</span></sc-if>
+                    <sc-if value="{{e.next}}"><span class="chip chip-s">{{t.soon}}</span></sc-if>
+                  </div>
+                </div>
+                <svg class="ic open" viewBox="0 0 24 24" role="img" aria-label="{{t.open}}"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+              </a>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ul>
+    </sc-if>
+
+    <sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:18px;padding:6px 12px" aria-busy="true" aria-label="{{t.loading}}">
+        <sc-for list="{{skRows}}" as="r" hint-placeholder-count="4">
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <span class="sk" style="width:44px;height:36px"></span>
+            <div style="flex:1;display:flex;flex-direction:column;gap:8px"><span class="sk" style="height:16px;width:{{r.w}}"></span><span class="sk" style="height:12px;width:38%"></span></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+      <div class="emp">
+        <span class="emp-i"><svg class="ic ic-xl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></span>
+        <p class="emp-t">{{t.emptyT}}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isError}}" hint-placeholder-val="{{ false }}">
+      <div class="emp">
+        <span class="emp-i"><svg class="ic ic-xl" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+        <p class="emp-t">{{t.errT}}</p>
+        <p class="emp-s">{{t.errS}}</p>
+        <button class="btn btn-s btn-sm"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>{{t.retry}}</button>
+      </div>
+    </sc-if>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"lang":{"editor":"enum","options":["en","ru"],"default":"en"},"status":{"editor":"enum","options":["data","loading","empty","error"],"default":"data"},"lite":{"editor":"boolean","default":false},"stage":{"editor":"boolean","default":true},"$preview":{"width":468,"height":560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const lang = p.lang === 'ru' ? 'ru' : 'en';
+    const theme = p.theme === 'dark' ? 'dark' : 'light';
+    const stage = p.stage !== false;
+    const status = ['loading', 'empty', 'error'].includes(p.status) ? p.status : 'data';
+    const T = {
+      en: {
+        title: 'Today’s events', updated: 'Updated 2 min ago', refresh: 'Refresh events', loading: 'Loading events',
+        soon: 'in 18 min', open: 'Open in Google Calendar',
+        emptyT: 'No meetings today — the day is yours',
+        errT: 'Couldn’t refresh', errS: 'Check your connection and try again.', retry: 'Try again'
+      },
+      ru: {
+        title: 'События сегодня', updated: 'Обновлено 2 мин назад', refresh: 'Обновить события', loading: 'Загружаю события',
+        soon: 'через 18 мин', open: 'Открыть в Google Календаре',
+        emptyT: 'Сегодня без встреч — день твой',
+        errT: 'Не удалось обновить', errS: 'Проверь соединение и попробуй ещё раз.', retry: 'Повторить'
+      }
+    }[lang];
+    const E = {
+      en: [
+        { time: '10:00', dur: '1 h', title: 'Design review with Anna', video: 'Meet', next: true },
+        { time: '12:30', dur: '1 h', title: 'Lunch with Marek' },
+        { gap: true, label: 'Free 14:00–16:00' },
+        { time: '16:00', dur: '1 h 30 min', title: 'Sprint planning', video: 'Zoom' },
+        { time: '17:30', dur: '30 min', title: '1:1 with Anna', video: 'Meet', last: true }
+      ],
+      ru: [
+        { time: '10:00', dur: '1 ч', title: 'Дизайн-ревью с Анной', video: 'Meet', next: true },
+        { time: '12:30', dur: '1 ч', title: 'Обед с Мареком' },
+        { gap: true, label: 'Свободно 14:00–16:00' },
+        { time: '16:00', dur: '1 ч 30 мин', title: 'Планирование спринта', video: 'Zoom' },
+        { time: '17:30', dur: '30 мин', title: '1:1 с Анной', video: 'Meet', last: true }
+      ]
+    }[lang].map((e) => e.gap
+      ? { gap: true, isEvent: false, label: e.label }
+      : { gap: false, isEvent: true, time: e.time, dur: e.dur, title: e.title, video: e.video, hasVideo: !!e.video, next: !!e.next,
+          cls: 'ev' + (e.next ? ' ev-next' : '') + (e.last ? ' ev-last' : '') });
+    return {
+      t: T, events: E,
+      skRows: [{ w: '70%' }, { w: '55%' }, { w: '80%' }, { w: '62%' }],
+      isData: status === 'data', isLoading: status === 'loading', isEmpty: status === 'empty', isError: status === 'error',
+      spinCls: status === 'loading' ? 'spin' : '',
+      rootCls: 'dbf th-' + theme + (p.lite === true ? ' lite' : '') + (stage ? ' scn sc-morning' : ''),
+      rootStyle: stage ? 'padding:24px' : 'height:100%'
+    };
+  }
+}
+</script>
+</body>
+</html>
