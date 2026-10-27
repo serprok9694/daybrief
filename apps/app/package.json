@@ -4,6 +4,7 @@
   "main": "expo-router/entry",
   "dependencies": {
     "@daybrief/core": "workspace:*",
+    "@daybrief/i18n": "workspace:*",
     "expo": "~58.0.20",
     "expo-constants": "~58.0.13",
     "expo-linking": "~58.0.14",

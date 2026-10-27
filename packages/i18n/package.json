@@ -10,5 +10,18 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "i18next": "^26.5.11",
+    "i18next-icu": "^2.6.1",
+    "intl-messageformat": "^12.1.4",
+    "react-i18next": "^17.1.9"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "react": "19.3.0"
+  },
+  "peerDependencies": {
+    "react": ">=19"
   }
 }
