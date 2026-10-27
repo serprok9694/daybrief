@@ -1,6 +1,6 @@
 // Local dev server. On Vercel the app is served from src/index.ts instead.
 import { serve } from '@hono/node-server';
-import { app } from './app';
+import { app } from './routes';
 
 const port = Number(process.env.PORT ?? 8787);
 

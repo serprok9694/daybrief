@@ -1,5 +1,5 @@
 // Vercel entry point: the default export is the Hono app.
-import { app } from './app';
+import { app } from './routes';
 
-export type { AppType } from './app';
+export type { AppType } from './routes';
 export default app;
