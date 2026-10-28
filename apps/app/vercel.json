@@ -3,6 +3,6 @@
   "framework": null,
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
-  "ignoreCommand": "npx turbo-ignore",
+  "ignoreCommand": "[ \"$VERCEL_ENV\" = production ] && exit 1 || npx turbo-ignore",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
