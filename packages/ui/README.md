@@ -21,4 +21,5 @@ Where a prop cannot take a CSS variable (icon colors, native shadows), read the 
 - Web-only effects (backdrop blur, layered scene gradients, keyframe loops) live in `src/ui.css`, loaded through `styles.web.ts`. Native gets the same look from expo-blur and resolved styles.
 - `Animated.View` does not take `className`: on web the animated primitives render a plain View with a CSS loop, on native they style the Animated.View directly.
 - Loops (skeleton, orb, refresh spin) stop under `prefers-reduced-motion` / Reduce Motion.
+- `Segment` is the `.seg` control (language, theme); `glass` puts it on the bare scene. `GoogleMark` is the only component with non-token colors (Google branding).
 - `darkMode: 'class'` in the preset only keeps NativeWind on web from throwing; themes never use `dark:` variants.

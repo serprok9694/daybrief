@@ -3,6 +3,8 @@ import type { Dictionary } from './en';
 // UI strings, ru. Must have exactly the same keys as en (enforced by the Dictionary type).
 export const ru: Dictionary = {
   common: {
+    appName: 'daybrief',
+    signOut: 'Выйти',
     updatedAgo: 'Обновлено {minutes} мин назад',
     refresh: 'Обновить',
     retry: 'Повторить',
@@ -76,6 +78,8 @@ export const ru: Dictionary = {
       'Тексты писем мы не храним.',
     ],
     language: 'Язык',
+    error: 'Не удалось войти. Попробуй ещё раз.',
+    signingIn: 'Входим…',
   },
   settings: {
     title: 'Настройки',

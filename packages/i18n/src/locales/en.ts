@@ -2,6 +2,8 @@
 // Strings are ICU MessageFormat: {name} placeholders, {n, plural, ...} plurals.
 export const en = {
   common: {
+    appName: 'daybrief',
+    signOut: 'Sign out',
     updatedAgo: 'Updated {minutes} min ago',
     refresh: 'Refresh',
     retry: 'Try again',
@@ -76,6 +78,8 @@ export const en = {
       'We never store the text of your emails.',
     ],
     language: 'Language',
+    error: 'Couldn’t sign in. Please try again.',
+    signingIn: 'Signing you in…',
   },
   settings: {
     title: 'Settings',

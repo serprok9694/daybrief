@@ -1,7 +1,9 @@
 import { partOfDay } from '@daybrief/core';
 import { setLanguage, supportedLanguages, useTranslation } from '@daybrief/i18n';
+import { Button } from '@daybrief/ui';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { signOut } from '../../auth/google';
 
 // Placeholder screen for M0/T1: proves the app builds and consumes workspace packages.
 // The real dashboard shell arrives in M0/T7.
@@ -31,6 +33,13 @@ export default function Dashboard() {
           );
         })}
       </View>
+      {/* Temporary: sign-out moves to Settings in M0/T8. The guard sends us to /sign-in. */}
+      <Button
+        variant="secondary"
+        size="small"
+        label={t('common.signOut')}
+        onPress={() => void signOut()}
+      />
       <StatusBar style="auto" />
     </View>
   );

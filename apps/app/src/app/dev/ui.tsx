@@ -10,6 +10,7 @@ import {
   ListRow,
   Orb,
   Scene,
+  Segment,
   Sheet,
   Skeleton,
   Text,
@@ -39,7 +40,7 @@ import {
   Video,
 } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
-import { Pressable, ScrollView, TextInput, View } from 'react-native';
+import { ScrollView, TextInput, View } from 'react-native';
 
 const columns: { theme: ThemeName; scene: SceneName; title: string }[] = [
   { theme: 'light', scene: 'day', title: 'Light' },
@@ -156,40 +157,6 @@ function ThemeColumn({
         </Sheet>
       </Scene>
     </ThemeProvider>
-  );
-}
-
-function Segment<T extends string>({
-  options,
-  value,
-  onChange,
-}: {
-  options: { value: T; label: string }[];
-  value: T;
-  onChange: (value: T) => void;
-}) {
-  return (
-    <View className="flex-row gap-1 self-start rounded-pill bg-fill p-1">
-      {options.map((o) => {
-        const active = o.value === value;
-        return (
-          <Pressable
-            key={o.value}
-            accessibilityRole="button"
-            accessibilityState={{ selected: active }}
-            onPress={() => onChange(o.value)}
-            className={cx(
-              'h-9 justify-center rounded-pill px-4 web:cursor-pointer',
-              active && 'bg-btn-p',
-            )}
-          >
-            <Text variant="label" tone={active ? 'btn-p-ink' : 'ink-2'}>
-              {o.label}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </View>
   );
 }
 
