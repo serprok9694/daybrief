@@ -1,0 +1,175 @@
+{
+  "kind": "calendar#events",
+  "etag": "\"p33c8bkd8ktg8a0g\"",
+  "summary": "author@example.com",
+  "description": "",
+  "updated": "2026-10-28T07:41:12.334Z",
+  "timeZone": "Europe/Warsaw",
+  "accessRole": "owner",
+  "defaultReminders": [{ "method": "popup", "minutes": 10 }],
+  "nextPageToken": "EjYKKzZ2b2QxaGJnNmNwM2diOXA2OHFqY2I5azZsMmo4YjlwNjhyM2diOXA2MBgBIICAgMDVmNz4FiIHCAQQ4LadAg==",
+  "items": [
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523145678901234\"",
+      "id": "4hqb3vldm2f9r8j6p0ktcs1n5a",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NGhxYjN2bGRtMmY5cjhqNnAwa3RjczFuNWEgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-20T09:12:33.000Z",
+      "updated": "2026-10-21T14:02:10.512Z",
+      "summary": "Design review",
+      "description": "<p>Agenda: widget states. Notes doc linked below.</p>",
+      "location": "Room 4.12",
+      "creator": { "email": "lead@example.com" },
+      "organizer": { "email": "lead@example.com" },
+      "start": { "dateTime": "2026-10-28T10:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T11:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "4hqb3vldm2f9r8j6p0ktcs1n5a@google.com",
+      "sequence": 1,
+      "attendees": [
+        { "email": "lead@example.com", "organizer": true, "responseStatus": "accepted" },
+        { "email": "author@example.com", "self": true, "responseStatus": "accepted" },
+        {
+          "email": "designer@example.com",
+          "displayName": "Designer",
+          "responseStatus": "tentative"
+        }
+      ],
+      "hangoutLink": "https://meet.google.com/abc-defg-hij",
+      "conferenceData": {
+        "entryPoints": [
+          {
+            "entryPointType": "video",
+            "uri": "https://meet.google.com/abc-defg-hij",
+            "label": "meet.google.com/abc-defg-hij"
+          },
+          {
+            "entryPointType": "phone",
+            "uri": "tel:+48-22-123-45-67",
+            "label": "+48 22 123 45 67",
+            "pin": "123456789"
+          },
+          { "entryPointType": "more", "uri": "https://tel.meet/abc-defg-hij?pin=1234567890123" }
+        ],
+        "conferenceSolution": {
+          "key": { "type": "hangoutsMeet" },
+          "name": "Google Meet",
+          "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+        },
+        "conferenceId": "abc-defg-hij"
+      },
+      "reminders": { "useDefault": true },
+      "attachments": [
+        {
+          "fileUrl": "https://docs.google.com/document/d/1AbCdEfGhIjKlMnOpQrStUvWxYz/edit",
+          "title": "Review notes",
+          "mimeType": "application/vnd.google-apps.document",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.document",
+          "fileId": "1AbCdEfGhIjKlMnOpQrStUvWxYz"
+        }
+      ],
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523000000000000\"",
+      "id": "0ob7s9e2ubk4k1fnl5p1a7m3qd",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=MG9iN3M5ZTJ1Ymk0azFmbmw1cDFhN20zcWQgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-01T18:00:00.000Z",
+      "updated": "2026-10-01T18:00:00.000Z",
+      "summary": "Mum's birthday",
+      "creator": { "email": "author@example.com", "self": true },
+      "organizer": { "email": "author@example.com", "self": true },
+      "start": { "date": "2026-10-28" },
+      "end": { "date": "2026-10-29" },
+      "transparency": "transparent",
+      "iCalUID": "0ob7s9e2ubk4k1fnl5p1a7m3qd@google.com",
+      "sequence": 0,
+      "reminders": { "useDefault": false },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3522900000000000\"",
+      "id": "7cbh8rpc10lrc0ckih9tafss99_20261028T090000Z",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=N2NiaDhycGMxMGxyYzBja2loOXRhZnNzOTlfMjAyNjEwMjhUMDkwMDAwWiBhdXRob3JAZXhhbXBsZS5jb20",
+      "created": "2026-09-01T08:30:00.000Z",
+      "updated": "2026-09-15T08:30:00.000Z",
+      "summary": "Standup",
+      "creator": { "email": "author@example.com", "self": true },
+      "organizer": { "email": "author@example.com", "self": true },
+      "start": { "dateTime": "2026-10-28T10:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T10:15:00+01:00", "timeZone": "Europe/Warsaw" },
+      "recurringEventId": "7cbh8rpc10lrc0ckih9tafss99",
+      "originalStartTime": { "dateTime": "2026-10-28T10:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "7cbh8rpc10lrc0ckih9tafss99@google.com",
+      "sequence": 0,
+      "conferenceData": {
+        "entryPoints": [
+          {
+            "entryPointType": "video",
+            "uri": "https://meet.google.com/xyz-abcd-efg",
+            "label": "meet.google.com/xyz-abcd-efg"
+          }
+        ],
+        "conferenceSolution": {
+          "key": { "type": "hangoutsMeet" },
+          "name": "Google Meet",
+          "iconUri": "https://fonts.gstatic.com/s/i/productlogos/meet_2020q4/v6/web-512dp/logo_meet_2020q4_color_2x_web_512dp.png"
+        },
+        "conferenceId": "xyz-abcd-efg"
+      },
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523100000000000\"",
+      "id": "5k2m8q1v3n7p9r4t6w0y2a4c6e",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=NWsybThxMXYzbjdwOXI0dDZ3MHkyYTRjNmUgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-25T12:00:00.000Z",
+      "updated": "2026-10-26T09:00:00.000Z",
+      "summary": "Quarterly planning",
+      "description": "Confidential numbers inside.",
+      "creator": { "email": "boss@example.com" },
+      "organizer": { "email": "boss@example.com" },
+      "start": { "dateTime": "2026-10-28T13:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T14:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "5k2m8q1v3n7p9r4t6w0y2a4c6e@google.com",
+      "sequence": 0,
+      "attendees": [
+        { "email": "boss@example.com", "organizer": true, "responseStatus": "accepted" },
+        {
+          "email": "author@example.com",
+          "self": true,
+          "responseStatus": "declined",
+          "comment": "Out sick"
+        }
+      ],
+      "hangoutLink": "https://meet.google.com/qqq-wwww-eee",
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523200000000000\"",
+      "id": "2f8h1j4k7l0m3n6p9q2r5s8t1u",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=MmY4aDFqNGs3bDBtM242cDlxMnI1czh0MXUgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-27T20:00:00.000Z",
+      "updated": "2026-10-27T20:00:00.000Z",
+      "summary": "Night release",
+      "creator": { "email": "author@example.com", "self": true },
+      "organizer": { "email": "author@example.com", "self": true },
+      "start": { "dateTime": "2026-10-28T23:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-29T01:30:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "2f8h1j4k7l0m3n6p9q2r5s8t1u@google.com",
+      "sequence": 0,
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    }
+  ]
+}

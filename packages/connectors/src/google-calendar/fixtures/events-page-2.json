@@ -1,0 +1,140 @@
+{
+  "kind": "calendar#events",
+  "etag": "\"p33c8bkd8ktg8a0g\"",
+  "summary": "author@example.com",
+  "description": "",
+  "updated": "2026-10-28T07:41:12.334Z",
+  "timeZone": "Europe/Warsaw",
+  "accessRole": "owner",
+  "defaultReminders": [{ "method": "popup", "minutes": 10 }],
+  "nextSyncToken": "CPDAlvWDx70CEPDAlvWDx70CGAU=",
+  "items": [
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523300000000000\"",
+      "id": "7cbh8rpc10lrc0ckih9tafss99_20261029T090000Z",
+      "status": "cancelled",
+      "recurringEventId": "7cbh8rpc10lrc0ckih9tafss99",
+      "originalStartTime": { "dateTime": "2026-10-29T10:00:00+01:00", "timeZone": "Europe/Warsaw" }
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523400000000000\"",
+      "id": "9a1b2c3d4e5f6g7h8i9j0k1l2m",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=OWExYjJjM2Q0ZTVmNmc3aDhpOWowazFsMm0gYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-22T10:00:00.000Z",
+      "updated": "2026-10-22T10:05:00.000Z",
+      "summary": "Client call",
+      "location": "Zoom: https://us02web.zoom.us/j/81234567890?pwd=aBcDeFgHiJkLmNoPqRsT.1, dial-in in invite",
+      "creator": { "email": "client@client.example" },
+      "organizer": { "email": "client@client.example" },
+      "start": { "dateTime": "2026-10-28T16:30:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T17:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "040000008200E00074C5B7101A82E00800000000A1B2C3D4@client.example",
+      "sequence": 2,
+      "attendees": [
+        { "email": "client@client.example", "organizer": true, "responseStatus": "accepted" },
+        { "email": "author@example.com", "self": true, "responseStatus": "needsAction" }
+      ],
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523500000000000\"",
+      "id": "3x5z7b9d1f3h5j7l9n1p3r5t7v",
+      "status": "tentative",
+      "htmlLink": "https://www.google.com/calendar/event?eid=M3g1ejdiOWQxZjNoNWo3bDluMXAzcjV0N3YgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-23T10:00:00.000Z",
+      "updated": "2026-10-23T10:00:00.000Z",
+      "summary": "Partner sync",
+      "location": "Teams (link inside)",
+      "creator": { "email": "partner@partner.example" },
+      "organizer": { "email": "partner@partner.example" },
+      "start": { "dateTime": "2026-10-28T18:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T18:30:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "3x5z7b9d1f3h5j7l9n1p3r5t7v@google.com",
+      "sequence": 0,
+      "attendees": [{ "email": "author@example.com", "self": true, "responseStatus": "tentative" }],
+      "conferenceData": {
+        "entryPoints": [
+          {
+            "entryPointType": "video",
+            "uri": "https://zoom.us/j/99887766554?pwd=XyZ",
+            "label": "zoom.us/j/99887766554",
+            "meetingCode": "99887766554",
+            "passcode": "123456"
+          }
+        ],
+        "conferenceSolution": {
+          "key": { "type": "addOn" },
+          "name": "Zoom Meeting",
+          "iconUri": "https://lh3.googleusercontent.com/zoom-icon"
+        },
+        "conferenceId": "99887766554"
+      },
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523600000000000\"",
+      "id": "8c0e2g4i6k8m0o2q4s6u8w0y2a",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=OGMwZTJnNGk2azhtMG8ycTRzNnU4dzB5MmEgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-24T10:00:00.000Z",
+      "updated": "2026-10-24T10:00:00.000Z",
+      "summary": "Vendor demo",
+      "location": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_abc%40thread.v2/0?context=%7b%7d",
+      "creator": { "email": "vendor@vendor.example" },
+      "organizer": { "email": "vendor@vendor.example" },
+      "start": { "dateTime": "2026-10-28T19:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T19:45:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "8c0e2g4i6k8m0o2q4s6u8w0y2a@google.com",
+      "sequence": 0,
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523700000000000\"",
+      "id": "1w3e5r7t9y1u3i5o7p9a1s3d5f_20261028",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=MXczZTVyN3Q5eTF1M2k1bzdwOWExczNkNWZfMjAyNjEwMjggYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-09-01T08:00:00.000Z",
+      "updated": "2026-09-01T08:00:00.000Z",
+      "summary": "Home",
+      "creator": { "email": "author@example.com", "self": true },
+      "organizer": { "email": "author@example.com", "self": true },
+      "start": { "date": "2026-10-28" },
+      "end": { "date": "2026-10-29" },
+      "transparency": "transparent",
+      "visibility": "public",
+      "recurringEventId": "1w3e5r7t9y1u3i5o7p9a1s3d5f",
+      "originalStartTime": { "date": "2026-10-28" },
+      "iCalUID": "1w3e5r7t9y1u3i5o7p9a1s3d5f@google.com",
+      "sequence": 0,
+      "reminders": { "useDefault": false },
+      "workingLocationProperties": { "type": "homeOffice", "homeOffice": {} },
+      "eventType": "workingLocation"
+    },
+    {
+      "kind": "calendar#event",
+      "etag": "\"3523800000000000\"",
+      "id": "6g8j0l2n4p6r8t0v2x4z6b8d0f",
+      "status": "confirmed",
+      "htmlLink": "https://www.google.com/calendar/event?eid=Nmc4ajBsMm40cDZyOHQwdjJ4NHo2YjhkMGYgYXV0aG9yQGV4YW1wbGUuY29t",
+      "created": "2026-10-26T10:00:00.000Z",
+      "updated": "2026-10-26T10:00:00.000Z",
+      "creator": { "email": "author@example.com", "self": true },
+      "organizer": { "email": "author@example.com", "self": true },
+      "start": { "dateTime": "2026-10-28T20:00:00+01:00", "timeZone": "Europe/Warsaw" },
+      "end": { "dateTime": "2026-10-28T20:30:00+01:00", "timeZone": "Europe/Warsaw" },
+      "iCalUID": "6g8j0l2n4p6r8t0v2x4z6b8d0f@google.com",
+      "sequence": 0,
+      "reminders": { "useDefault": true },
+      "eventType": "default"
+    }
+  ]
+}

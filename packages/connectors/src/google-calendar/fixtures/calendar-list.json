@@ -1,0 +1,85 @@
+{
+  "kind": "calendar#calendarList",
+  "etag": "\"p32g9nb5bt6fva0g\"",
+  "nextSyncToken": "CKCbrKvpn9ADEhNhdXRob3JAZXhhbXBsZS5jb20=",
+  "items": [
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1761650000000000\"",
+      "id": "author@example.com",
+      "summary": "author@example.com",
+      "timeZone": "Europe/Warsaw",
+      "colorId": "14",
+      "backgroundColor": "#9fe1e7",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "owner",
+      "defaultReminders": [{ "method": "popup", "minutes": 10 }],
+      "notificationSettings": {
+        "notifications": [
+          { "type": "eventCreation", "method": "email" },
+          { "type": "eventChange", "method": "email" }
+        ]
+      },
+      "primary": true,
+      "conferenceProperties": { "allowedConferenceSolutionTypes": ["hangoutsMeet"] }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1761650000000001\"",
+      "id": "c_3f1b6a0e9d2c4f5a8b7e@group.calendar.google.com",
+      "summary": "Family",
+      "summaryOverride": "Семья",
+      "timeZone": "Europe/Warsaw",
+      "colorId": "7",
+      "backgroundColor": "#42d692",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "writer",
+      "defaultReminders": [],
+      "conferenceProperties": { "allowedConferenceSolutionTypes": ["hangoutsMeet"] }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1761650000000002\"",
+      "id": "en.polish#holiday@group.v.calendar.google.com",
+      "summary": "Holidays in Poland",
+      "description": "Holidays and Observances in Poland",
+      "timeZone": "Europe/Warsaw",
+      "colorId": "8",
+      "backgroundColor": "#16a765",
+      "foregroundColor": "#000000",
+      "selected": true,
+      "accessRole": "reader",
+      "defaultReminders": [],
+      "conferenceProperties": { "allowedConferenceSolutionTypes": ["hangoutsMeet"] }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1761650000000003\"",
+      "id": "colleague@example.com",
+      "summary": "colleague@example.com",
+      "timeZone": "Europe/Berlin",
+      "colorId": "2",
+      "backgroundColor": "#d06b64",
+      "foregroundColor": "#000000",
+      "accessRole": "freeBusyReader",
+      "defaultReminders": [],
+      "conferenceProperties": { "allowedConferenceSolutionTypes": ["hangoutsMeet"] }
+    },
+    {
+      "kind": "calendar#calendarListEntry",
+      "etag": "\"1761650000000004\"",
+      "id": "addressbook#contacts@group.v.calendar.google.com",
+      "summary": "Birthdays",
+      "timeZone": "Europe/Warsaw",
+      "colorId": "13",
+      "backgroundColor": "#92e1c0",
+      "foregroundColor": "#000000",
+      "selected": false,
+      "accessRole": "reader",
+      "defaultReminders": [],
+      "conferenceProperties": { "allowedConferenceSolutionTypes": ["hangoutsMeet"] }
+    }
+  ]
+}

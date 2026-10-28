@@ -11,4 +11,15 @@ export default tseslint.config(
     files: ['**/scripts/**/*.mjs'],
     languageOptions: { globals: { console: 'readonly' } },
   },
+  {
+    // Connectors get `fetch` as a parameter and never log (tokens pass through them).
+    files: ['packages/connectors/src/**/*.ts'],
+    rules: {
+      'no-console': 'error',
+      'no-restricted-globals': [
+        'error',
+        { name: 'fetch', message: 'Use the fetch passed in deps.' },
+      ],
+    },
+  },
 );
