@@ -1,3 +1,4 @@
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { createMiddleware } from 'hono/factory';
 import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose';
 
@@ -40,4 +41,13 @@ export function requireAuth(verify: () => TokenVerifier) {
     c.set('userId', userId);
     await next();
   });
+}
+
+/**
+ * Constant-time check of a shared secret (`x-sync-secret`). Both sides are hashed first,
+ * so neither the content nor the length of the expected value leaks through timing.
+ */
+export function secretMatches(given: string | undefined, expected: string): boolean {
+  const digest = (value: string) => createHash('sha256').update(value).digest();
+  return timingSafeEqual(digest(given ?? ''), digest(expected)) && given !== undefined;
 }

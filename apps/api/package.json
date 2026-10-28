@@ -13,6 +13,7 @@
     "build": "node scripts/build-vercel.mjs"
   },
   "dependencies": {
+    "@daybrief/connectors": "workspace:*",
     "@daybrief/core": "workspace:*",
     "@hono/node-server": "^2.1.5",
     "@supabase/supabase-js": "^2.118.0",

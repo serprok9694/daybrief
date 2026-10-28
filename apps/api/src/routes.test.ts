@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { decrypt } from './crypto';
 import type { GoogleConnectionInput } from './deps';
 import { createRoutes } from './routes';
+import { fakeWorld } from './test-deps';
 
 const profile: Profile = {
   userId: 'user-1',
@@ -23,6 +24,8 @@ beforeEach(() => {
 });
 
 const routes = createRoutes({
+  // Calendar routes are covered in sync.test.ts.
+  ...fakeWorld().deps,
   // Accepts tokens of the form "token-for-<userId>".
   verifyToken: () => async (token) => {
     if (!token.startsWith('token-for-')) throw new Error('bad token');

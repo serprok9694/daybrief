@@ -31,7 +31,7 @@ Preview пока ходит в production API; отдельные preview-окр
 
 ### Vercel `daybrief-api` (Production + Preview, тип Sensitive)
 
-`/health` работает без них. `SUPABASE_URL` и `SUPABASE_SECRET_KEY` нужны с T5 (`GET /me`: проверка JWT по JWKS проекта и чтение профиля). `TOKEN_ENCRYPTION_KEY` нужен с T6: `POST /connections/google` шифрует им refresh-токен Google. `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` API начнёт использовать в M1 (sync); при входе Google-клиент использует Supabase.
+`/health` работает без них. `SUPABASE_URL` и `SUPABASE_SECRET_KEY` нужны с T5 (`GET /me`: проверка JWT по JWKS проекта и чтение профиля). `TOKEN_ENCRYPTION_KEY` нужен с T6: `POST /connections/google` шифрует им refresh-токен Google. `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` нужны с M1/T2: sync календаря меняет ими refresh token на access token (при входе Google-клиент использует Supabase). `SYNC_SECRET` нужен с M1/T3: пока он не задан, `POST /internal/sync` отвечает 503 и ничего не синхронизирует.
 
 CORS: API отвечает браузеру только с origin web-приложения (прод, preview `daybrief-web-*-serprok9694-1239s-projects.vercel.app`, `http://localhost:8081`), список в `apps/api/src/cors.ts`.
 
@@ -41,6 +41,7 @@ CORS: API отвечает браузеру только с origin web-прил�
 | `SUPABASE_SECRET_KEY` | Supabase → Project Settings → API Keys → secret key |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google Cloud → Google Auth Platform → Clients |
 | `TOKEN_ENCRYPTION_KEY` | `.env` (тот же, что локально; потеря = повторный вход всех пользователей) |
+| `SYNC_SECRET` | `openssl rand -base64 32`; то же значение — в Supabase Vault для `pg_cron` (M1/T3). Заголовок `x-sync-secret` у `POST /internal/sync` |
 
 ### GitHub Actions (Settings → Secrets and variables → Actions)
 

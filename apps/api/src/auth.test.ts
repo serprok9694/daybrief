@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { createLocalJWKSet, exportJWK, generateKeyPair, SignJWT, type CryptoKey } from 'jose';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { requireAuth, supabaseTokenVerifier, type TokenVerifier } from './auth';
+import { requireAuth, secretMatches, supabaseTokenVerifier, type TokenVerifier } from './auth';
 
 const SUPABASE_URL = 'https://project.supabase.co';
 const ISSUER = `${SUPABASE_URL}/auth/v1`;
@@ -78,5 +78,15 @@ describe('requireAuth', () => {
       JSON.stringify({ sub: 'someone-else', iss: ISSUER, aud: 'authenticated' }),
     ).toString('base64url');
     expect((await request(`Bearer ${header}.${payload}.${signature}`)).status).toBe(401);
+  });
+});
+
+describe('secretMatches', () => {
+  it('accepts only the exact secret', () => {
+    expect(secretMatches('s3cret', 's3cret')).toBe(true);
+    expect(secretMatches('s3cre', 's3cret')).toBe(false);
+    expect(secretMatches('s3cret ', 's3cret')).toBe(false);
+    expect(secretMatches('', 's3cret')).toBe(false);
+    expect(secretMatches(undefined, 's3cret')).toBe(false);
   });
 });
