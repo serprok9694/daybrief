@@ -164,7 +164,11 @@ importers:
         specifier: ~6.0.3
         version: 6.0.3
 
-  packages/connectors: {}
+  packages/connectors:
+    dependencies:
+      '@daybrief/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/core: {}
 
