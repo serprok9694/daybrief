@@ -2,5 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "buildCommand": "pnpm build",
-  "ignoreCommand": "npx turbo-ignore"
+  "ignoreCommand": "[ \"$VERCEL_ENV\" = production ] && exit 1 || npx turbo-ignore"
 }

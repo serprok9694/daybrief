@@ -6,7 +6,8 @@
 | API (`apps/api`) | Vercel, проект `daybrief-api` | Hono, собранный esbuild в одну функцию (`scripts/build-vercel.mjs` → `.vercel/output`, Build Output API) |
 | БД | Supabase | миграции из `supabase/migrations` через GitHub Actions |
 
-- **Preview:** каждый PR получает preview-деплой обоих проектов (Vercel Git integration). `npx turbo-ignore` пропускает сборку проекта, если его код и зависимости не менялись.
+- **Preview:** каждый PR получает preview-деплой обоих проектов (Vercel Git integration). `npx turbo-ignore` пропускает preview-сборку проекта, если его код и зависимости не менялись.
+- **Production собирается всегда** (`ignoreCommand` пропускает turbo-ignore при `VERCEL_ENV=production`): иначе ручной Redeploy после смены env-переменных отменяется как «Not affected».
 - **Production:** merge в `main`.
 - **Миграции:** `.github/workflows/db-migrate.yml` при пуше в `main`, если менялся `supabase/migrations/**` (или вручную: Actions → DB migrations → Run workflow). Перед этим CI на PR поднимает Postgres (`supabase db start`), применяет миграции, гоняет pgTAP-тесты (`supabase/tests`) и проверяет, что `packages/core/src/database.types.ts` совпадает с `supabase gen types`.
 
