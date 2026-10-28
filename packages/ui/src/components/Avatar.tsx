@@ -1,4 +1,5 @@
-import { View } from 'react-native';
+import { useState } from 'react';
+import { Image, View } from 'react-native';
 import { cx } from '../cx';
 import { Text } from './Text';
 import { avatarTone, initials, type AvatarTone } from './initials';
@@ -18,22 +19,34 @@ export interface AvatarProps {
   tone?: AvatarTone;
   /** Text shown instead of initials computed from `name`. */
   label?: string;
+  /** Photo (e.g. the Google profile picture). Falls back to initials if it fails to load. */
+  uri?: string;
   className?: string;
 }
 
 /** Round avatar with initials on one of four warm tones. Decorative: the name is shown next to it. */
-export function Avatar({ name, size = 40, tone, label, className }: AvatarProps) {
+export function Avatar({ name, size = 40, tone, label, uri, className }: AvatarProps) {
+  const [failedUri, setFailedUri] = useState<string>();
+  const photo = uri && uri !== failedUri ? uri : undefined;
   return (
     <View
       aria-hidden
       className={cx(
-        'items-center justify-center rounded-pill',
+        'items-center justify-center overflow-hidden rounded-pill',
         size === 44 ? 'h-11 w-11' : 'h-10 w-10',
         tones[tone ?? avatarTone(name)],
         className,
       )}
     >
-      <Text variant={size === 44 ? 'label-lg' : 'label'}>{label ?? initials(name)}</Text>
+      {photo ? (
+        <Image
+          source={{ uri: photo }}
+          onError={() => setFailedUri(photo)}
+          className="h-full w-full rounded-pill"
+        />
+      ) : (
+        <Text variant={size === 44 ? 'label-lg' : 'label'}>{label ?? initials(name)}</Text>
+      )}
     </View>
   );
 }

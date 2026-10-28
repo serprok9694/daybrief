@@ -9,6 +9,8 @@ export interface SkeletonProps {
   height?: DimensionValue;
   /** Round placeholder (avatar, icon). */
   circle?: boolean;
+  /** Corner radius in px for block placeholders; defaults to 8. */
+  radius?: number;
   className?: string;
 }
 
@@ -16,7 +18,7 @@ export interface SkeletonProps {
  * Loading placeholder that repeats the content's shape. Web: shimmer `--sk-a → --sk-b`
  * (1.6 s); native: the same colors as a pulse. Static under reduced motion.
  */
-export function Skeleton({ width, height = 14, circle = false, className }: SkeletonProps) {
+export function Skeleton({ width, height = 14, circle = false, radius, className }: SkeletonProps) {
   const theme = useTheme();
   const { value } = useLoop(motion.skeleton, { yoyo: true });
   // Animated components do not take className: web (CSS shimmer) renders a plain View,
@@ -26,7 +28,7 @@ export function Skeleton({ width, height = 14, circle = false, className }: Skel
       <View
         aria-hidden
         className={cx('dbf-sk', circle ? 'rounded-pill' : 'rounded-lg', className)}
-        style={{ width, height }}
+        style={{ width, height, borderRadius: circle ? undefined : radius }}
       />
     );
   }
@@ -36,7 +38,7 @@ export function Skeleton({ width, height = 14, circle = false, className }: Skel
       style={{
         width,
         height,
-        borderRadius: circle ? 999 : 8,
+        borderRadius: circle ? 999 : (radius ?? 8),
         backgroundColor: theme.vars['--sk-b'],
         opacity: value.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1] }),
       }}

@@ -26,11 +26,13 @@ export const en = {
   },
   summary: {
     title: 'Day brief',
+    refresh: 'Refresh day brief',
     generatedAt: 'Generated {time}',
     loading: 'Writing your day brief',
   },
   events: {
     title: 'Today’s events',
+    refresh: 'Refresh events',
     startsIn: 'in {minutes} min',
     free: 'Free {from}–{to}',
     open: 'Open in Google Calendar',
@@ -39,6 +41,7 @@ export const en = {
   },
   tasks: {
     title: 'Tasks',
+    refresh: 'Refresh tasks',
     overdue: 'Overdue',
     today: 'Today',
     overdueBy: 'Overdue · {days, plural, one {# day} other {# days}}',
@@ -48,6 +51,7 @@ export const en = {
   },
   mail: {
     title: 'Important emails',
+    refresh: 'Refresh emails',
     needsReply: 'Needs reply',
     open: 'Open in Gmail',
     empty: 'Nothing important',
@@ -59,6 +63,7 @@ export const en = {
   },
   idea: {
     title: 'Idea of the day',
+    refresh: 'Refresh idea',
     capturedAgo: 'Captured {days} days ago',
     suggestion: 'You’re free {from}–{to} — maybe dig into this?',
     notNow: 'Not now',
