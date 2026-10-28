@@ -1,4 +1,4 @@
-import { GOOGLE_SCOPES } from '@daybrief/core';
+import { GOOGLE_SCOPES, parseProfilePatch, type ProfilePatch } from '@daybrief/core';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { validator } from 'hono/validator';
@@ -16,6 +16,26 @@ export function createRoutes(deps: Deps) {
         const profile = await deps.getProfile(c.var.userId);
         if (!profile) return c.json({ error: 'not_found' }, 404);
         return c.json(profile, 200);
+      })
+      // Settings: language, theme, background scene and the time zone the client reports.
+      .patch(
+        '/me',
+        requireAuth(deps.verifyToken),
+        // Typed for the RPC client; the value itself is untrusted until parsed.
+        validator('json', (value: ProfilePatch, c) => {
+          const patch = parseProfilePatch(value);
+          if (!patch) return c.json({ error: 'invalid_request' }, 400);
+          return patch;
+        }),
+        async (c) => {
+          const profile = await deps.updateProfile(c.var.userId, c.req.valid('json'));
+          if (!profile) return c.json({ error: 'not_found' }, 404);
+          return c.json(profile, 200);
+        },
+      )
+      .get('/connections/google', requireAuth(deps.verifyToken), async (c) => {
+        const connection = await deps.getGoogleConnection(c.var.userId);
+        return c.json(connection, 200);
       })
       // Called by the app right after Google sign-in with the session's provider_refresh_token.
       // The token is encrypted here and is never logged or returned.

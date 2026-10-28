@@ -1,6 +1,14 @@
 /** Non-color tokens from docs/design/tokens.json: radii, spacing, type, layout, motion. */
 
-export const radius = { sheet: 40, sheetMobile: 32, card: 28, row: 16, pill: 999 } as const;
+export const radius = {
+  sheet: 40,
+  sheetMobile: 32,
+  card: 28,
+  row: 16,
+  pill: 999,
+  /** Background picker tile (`.bgpick button` in tokens.css): the 16 px thumbnail plus its 2 px ring and padding. */
+  picker: 20,
+} as const;
 
 export const space = [4, 8, 12, 16, 20, 24, 32, 44] as const;
 

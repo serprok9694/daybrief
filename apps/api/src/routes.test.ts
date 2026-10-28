@@ -1,4 +1,4 @@
-import { GOOGLE_SCOPES, type Profile } from '@daybrief/core';
+import { GOOGLE_SCOPES, type Profile, type ProfilePatch } from '@daybrief/core';
 import { randomBytes } from 'node:crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { decrypt } from './crypto';
@@ -16,8 +16,10 @@ const profile: Profile = {
 
 const key = randomBytes(32);
 let saved: Map<string, GoogleConnectionInput>;
+let updates: ProfilePatch[];
 beforeEach(() => {
   saved = new Map();
+  updates = [];
 });
 
 const routes = createRoutes({
@@ -27,6 +29,15 @@ const routes = createRoutes({
     return token.slice('token-for-'.length);
   },
   getProfile: async (userId) => (userId === profile.userId ? profile : null),
+  updateProfile: async (userId, patch) => {
+    if (userId !== profile.userId) return null;
+    updates.push(patch);
+    return { ...profile, ...patch };
+  },
+  getGoogleConnection: async (userId) =>
+    userId === profile.userId
+      ? { status: 'active', scopes: [...GOOGLE_SCOPES] }
+      : { status: 'none', scopes: [] },
   tokenKey: () => key,
   saveGoogleConnection: async (userId, connection) => {
     saved.set(userId, connection);
@@ -50,6 +61,64 @@ describe('GET /me', () => {
 
   it('returns 404 when the profile does not exist', async () => {
     expect((await me('token-for-user-2')).status).toBe(404);
+  });
+});
+
+describe('PATCH /me', () => {
+  const patch = (body: unknown, token?: string) =>
+    routes.request('/me', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(body),
+    });
+
+  it('requires a valid token', async () => {
+    expect((await patch({ theme: 'dark' })).status).toBe(401);
+    expect((await patch({ theme: 'dark' }, 'garbage')).status).toBe(401);
+    expect(updates).toEqual([]);
+  });
+
+  it('saves the change and returns the updated profile', async () => {
+    const res = await patch({ theme: 'dark', locale: null }, 'token-for-user-1');
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ...profile, theme: 'dark', locale: null });
+    expect(updates).toEqual([{ theme: 'dark', locale: null }]);
+  });
+
+  it.each([{}, { theme: 'sepia' }, { userId: 'user-2' }, { displayName: 'x' }, null, []])(
+    'rejects an invalid patch: %j',
+    async (body) => {
+      expect((await patch(body, 'token-for-user-1')).status).toBe(400);
+      expect(updates).toEqual([]);
+    },
+  );
+
+  it('returns 404 when the profile does not exist', async () => {
+    expect((await patch({ scene: 'night' }, 'token-for-user-2')).status).toBe(404);
+  });
+});
+
+describe('GET /connections/google', () => {
+  const get = (token?: string) =>
+    routes.request('/connections/google', {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+  it('requires a valid token', async () => {
+    expect((await get()).status).toBe(401);
+  });
+
+  it('returns the status without the token', async () => {
+    const res = await get('token-for-user-1');
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ status: 'active', scopes: [...GOOGLE_SCOPES] });
+  });
+
+  it('reports none when the user never connected', async () => {
+    expect(await (await get('token-for-user-2')).json()).toEqual({ status: 'none', scopes: [] });
   });
 });
 

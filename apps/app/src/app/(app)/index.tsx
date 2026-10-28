@@ -1,10 +1,10 @@
 import { getLanguage, useTranslation } from '@daybrief/i18n';
 import { Glass, Scene, Sheet, Text, layout, usePartOfDay } from '@daybrief/ui';
 import { StatusBar } from 'expo-status-bar';
-import { useState, type ReactNode } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../auth/AuthProvider';
+import { CardGrid } from '../../dashboard/CardGrid';
 import { CommandBar } from '../../dashboard/CommandBar';
 import {
   avatarUrl,
@@ -12,7 +12,6 @@ import {
   firstName,
   formatToday,
   greetingKey,
-  gridColumns,
   type GoogleMetadata,
 } from '../../dashboard/format';
 import { TopBar } from '../../dashboard/TopBar';
@@ -23,7 +22,7 @@ import {
   SummaryWidget,
   TasksWidget,
 } from '../../dashboard/widgets';
-import { useMe } from '../../lib/useMe';
+import { useProfile } from '../../lib/profile';
 
 // Mobile dock: 60 tall, 12 above the bottom edge, 4 below the content.
 const DOCK_HEIGHT = 60;
@@ -33,7 +32,7 @@ const DOCK_OFFSET = 12;
 export default function Dashboard() {
   const { t } = useTranslation();
   const { session } = useAuth();
-  const profile = useMe();
+  const { profile } = useProfile();
   const part = usePartOfDay();
   const insets = useSafeAreaInsets();
   const wide = useWindowDimensions().width > layout.mobileBreakpoint;
@@ -72,11 +71,11 @@ export default function Dashboard() {
               </Text>
             </View>
             <SummaryWidget />
-            <WidgetGrid gap={wide ? 20 : 14}>
+            <CardGrid min={layout.gridMinColumn} gap={wide ? 20 : 14}>
               <EventsWidget className="flex-1" />
               <TasksWidget className="flex-1" />
               <MailWidget className="flex-1" />
-            </WidgetGrid>
+            </CardGrid>
             <IdeaWidget />
           </Sheet>
         </View>
@@ -93,25 +92,5 @@ export default function Dashboard() {
       )}
       <StatusBar style="auto" />
     </Scene>
-  );
-}
-
-/** `repeat(auto-fit, minmax(min(340px, 100%), 1fr))`, with cards of one row at equal height. */
-function WidgetGrid({ gap, children }: { gap: number; children: ReactNode[] }) {
-  const [width, setWidth] = useState(0);
-  const { itemWidth } = gridColumns(width, layout.gridMinColumn, gap);
-  return (
-    <View
-      className="flex-row flex-wrap"
-      style={{ gap }}
-      onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
-    >
-      {children.map((child, i) => (
-        // Floored so sub-pixel widths never push the last card to the next row.
-        <View key={i} className="flex-row" style={{ width: Math.floor(itemWidth) || '100%' }}>
-          {child}
-        </View>
-      ))}
-    </View>
   );
 }
