@@ -27,11 +27,13 @@ export const ru: Dictionary = {
   },
   summary: {
     title: 'Сводка дня',
+    refresh: 'Обновить сводку дня',
     generatedAt: 'Собрана в {time}',
     loading: 'Пишу сводку дня',
   },
   events: {
     title: 'События сегодня',
+    refresh: 'Обновить события',
     startsIn: 'через {minutes} мин',
     free: 'Свободно {from}–{to}',
     open: 'Открыть в Google Календаре',
@@ -40,6 +42,7 @@ export const ru: Dictionary = {
   },
   tasks: {
     title: 'Задачи',
+    refresh: 'Обновить задачи',
     overdue: 'Просрочено',
     today: 'Сегодня',
     overdueBy: 'Просрочено · {days, plural, one {# день} few {# дня} many {# дней} other {# дня}}',
@@ -49,6 +52,7 @@ export const ru: Dictionary = {
   },
   mail: {
     title: 'Важные письма',
+    refresh: 'Обновить письма',
     needsReply: 'Нужен ответ',
     open: 'Открыть в Gmail',
     empty: 'Ничего важного',
@@ -60,6 +64,7 @@ export const ru: Dictionary = {
   },
   idea: {
     title: 'Идея дня',
+    refresh: 'Обновить идею',
     capturedAgo: 'Записана {days} дней назад',
     suggestion: 'У тебя свободно {from}–{to} — может, поисследовать?',
     notNow: 'Не сейчас',
