@@ -88,7 +88,8 @@ export const en = {
   },
   settings: {
     title: 'Settings',
-    subtitle: 'Language, background, connected accounts and tokens for Shortcuts.',
+    // API tokens come back to the subtitle with M2.
+    subtitle: 'Language, theme, background and connected accounts.',
     back: 'Back to dashboard',
     language: 'Language',
     languageHint: 'Used for the interface, the day brief and email summaries.',
@@ -104,8 +105,12 @@ export const en = {
     accounts: 'Connected accounts',
     googleName: 'Google · Calendar and Tasks',
     readOnly: 'read-only',
+    gmailName: 'Gmail',
     gmailHint: 'Read-only. Message bodies are never stored.',
     connected: 'Connected',
+    reconnect: 'Needs reconnecting',
+    soon: 'Soon',
+    saveError: 'Couldn’t save the change. Try again.',
     notConnected: 'Not connected',
     connect: 'Connect',
     disconnect: 'Disconnect',
@@ -117,6 +122,7 @@ export const en = {
     usedDaysAgo: 'used {days} days ago',
     theme: {
       title: 'Theme',
+      hint: 'Auto follows your device’s light or dark mode.',
       auto: 'Auto',
       light: 'Light',
       dark: 'Dark',

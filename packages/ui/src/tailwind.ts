@@ -56,6 +56,7 @@ const preset = {
         'sheet-m': px(radius.sheetMobile),
         card: px(radius.card),
         row: px(radius.row),
+        picker: px(radius.picker),
         pill: px(radius.pill),
       },
       fontSize: {

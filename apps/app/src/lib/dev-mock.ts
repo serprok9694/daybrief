@@ -1,9 +1,10 @@
-import type { Profile } from '@daybrief/core';
+import type { GoogleConnectionStatus, Profile } from '@daybrief/core';
 import type { Session } from '@supabase/supabase-js';
 
 export interface DevMock {
   session: Session;
   profile: Profile;
+  googleConnection: GoogleConnectionStatus;
 }
 
 /**

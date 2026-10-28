@@ -4,7 +4,9 @@ import { I18nProvider } from '@daybrief/i18n';
 import { fonts, ThemeProvider } from '@daybrief/ui';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import type { ReactNode } from 'react';
 import { AuthProvider, useAuth } from '../auth/AuthProvider';
+import { ProfileProvider, useProfile } from '../lib/profile';
 
 export default function RootLayout() {
   const [loaded, error] = useFonts(fonts);
@@ -13,12 +15,24 @@ export default function RootLayout() {
 
   return (
     <I18nProvider>
-      <ThemeProvider className="flex-1">
-        <AuthProvider>
-          <RootStack />
-        </AuthProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ProfileProvider>
+          <ProfileTheme>
+            <RootStack />
+          </ProfileTheme>
+        </ProfileProvider>
+      </AuthProvider>
     </I18nProvider>
+  );
+}
+
+/** The theme from the profile; follows the system until it loads and when signed out. */
+function ProfileTheme({ children }: { children: ReactNode }) {
+  const { profile } = useProfile();
+  return (
+    <ThemeProvider preference={profile?.theme ?? 'auto'} className="flex-1">
+      {children}
+    </ThemeProvider>
   );
 }
 
