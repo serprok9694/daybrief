@@ -30,7 +30,9 @@ Preview пока ходит в production API; отдельные preview-окр
 
 ### Vercel `daybrief-api` (Production + Preview, тип Sensitive)
 
-`/health` работает без них. `SUPABASE_URL` и `SUPABASE_SECRET_KEY` нужны с T5 (`GET /me`: проверка JWT по JWKS проекта и чтение профиля), `TOKEN_ENCRYPTION_KEY` и Google — с T6.
+`/health` работает без них. `SUPABASE_URL` и `SUPABASE_SECRET_KEY` нужны с T5 (`GET /me`: проверка JWT по JWKS проекта и чтение профиля). `TOKEN_ENCRYPTION_KEY` нужен с T6: `POST /connections/google` шифрует им refresh-токен Google. `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` API начнёт использовать в M1 (sync); при входе Google-клиент использует Supabase.
+
+CORS: API отвечает браузеру только с origin web-приложения (прод, preview `daybrief-web-*-serprok9694-1239s-projects.vercel.app`, `http://localhost:8081`), список в `apps/api/src/cors.ts`.
 
 | Ключ | Откуда |
 |---|---|
@@ -85,6 +87,9 @@ gh secret set SUPABASE_ACCESS_TOKEN
 Authentication → URL Configuration:
 - **Site URL:** `https://daybrief-web.vercel.app`
 - **Redirect URLs:** оставить `http://localhost:8081/**`, добавить `https://daybrief-web.vercel.app/**` и `https://daybrief-web-*-serprok9694-1239s-projects.vercel.app/**` (preview).
+- Для iOS/Android-сборок (позже): `daybrief://**`.
+
+После входа Google возвращает на `/auth/callback?code=…` (PKCE), под эти маски он попадает.
 
 ## Локальная БД
 

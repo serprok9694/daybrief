@@ -21,6 +21,8 @@ export { Glass, type GlassProps } from './components/Glass';
 export { Sheet, type SheetProps } from './components/Sheet';
 export { Card, type CardProps } from './components/Card';
 export { Button, type ButtonProps, type ButtonVariant } from './components/Button';
+export { GoogleMark } from './components/GoogleMark';
+export { Segment, type SegmentOption, type SegmentProps } from './components/Segment';
 export { IconButton, type IconButtonProps } from './components/IconButton';
 export { Chip, type ChipProps, type ChipVariant } from './components/Chip';
 export { ListRow, type ListRowProps } from './components/ListRow';
