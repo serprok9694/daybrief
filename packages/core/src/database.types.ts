@@ -23,7 +23,21 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "google_connections": {
+            "calendar_events": {
+                  Row: {
+                    "all_day": boolean,"calendar_id": string,"end_at": string | null,"end_date": string | null,"event_id": string,"html_link": string | null,"start_at": string | null,"start_date": string | null,"synced_at": string,"title": string,"user_id": string,"video_url": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "all_day": boolean,"calendar_id": string,"end_at"?: string | null,"end_date"?: string | null,"event_id": string,"html_link"?: string | null,"start_at"?: string | null,"start_date"?: string | null,"synced_at": string,"title"?: string,"user_id": string,"video_url"?: string | null
+                  }
+                  Update: {
+                    "all_day"?: boolean,"calendar_id"?: string,"end_at"?: string | null,"end_date"?: string | null,"event_id"?: string,"html_link"?: string | null,"start_at"?: string | null,"start_date"?: string | null,"synced_at"?: string,"title"?: string,"user_id"?: string,"video_url"?: string | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"google_connections": {
                   Row: {
                     "created_at": string,"refresh_token_encrypted": string,"scopes": (string)[],"status": Database["public"]['Enums']["connection_status"],"updated_at": string,"user_id": string
                   }
@@ -51,16 +65,38 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"sync_state": {
+                  Row: {
+                    "error": string | null,"locked_until": string | null,"source": Database["public"]['Enums']["sync_source"],"synced_at": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "error"?: string | null,"locked_until"?: string | null,"source": Database["public"]['Enums']["sync_source"],"synced_at"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "error"?: string | null,"locked_until"?: string | null,"source"?: Database["public"]['Enums']["sync_source"],"synced_at"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 }
           }
           Views: {
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "fail_calendar_sync":
+{ Args: { "p_error": string,"p_status": Database["public"]['Enums']["connection_status"],"p_user_id": string }; Returns: undefined
+                           },
+"save_calendar_sync":
+{ Args: { "p_events": Json,"p_synced_at": string,"p_user_id": string }; Returns: undefined
+                           },
+"try_lock_sync":
+{ Args: { "p_seconds": number,"p_source": Database["public"]['Enums']["sync_source"],"p_user_id": string }; Returns: boolean
+                           }
           }
           Enums: {
-            "app_locale": "en"|"ru","connection_status": "active"|"revoked"|"error","scene_preference": "auto"|"morning"|"day"|"evening"|"night","theme_preference": "auto"|"light"|"dark"
+            "app_locale": "en"|"ru","connection_status": "active"|"revoked"|"error","scene_preference": "auto"|"morning"|"day"|"evening"|"night","sync_source": "calendar","theme_preference": "auto"|"light"|"dark"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -180,7 +216,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "app_locale": ["en", "ru"],"connection_status": ["active", "revoked", "error"],"scene_preference": ["auto", "morning", "day", "evening", "night"],"theme_preference": ["auto", "light", "dark"]
+            "app_locale": ["en", "ru"],"connection_status": ["active", "revoked", "error"],"scene_preference": ["auto", "morning", "day", "evening", "night"],"sync_source": ["calendar"],"theme_preference": ["auto", "light", "dark"]
           }
         }
 } as const
