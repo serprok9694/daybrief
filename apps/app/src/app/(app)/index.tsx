@@ -15,13 +15,8 @@ import {
   type GoogleMetadata,
 } from '../../dashboard/format';
 import { TopBar } from '../../dashboard/TopBar';
-import {
-  EventsWidget,
-  IdeaWidget,
-  MailWidget,
-  SummaryWidget,
-  TasksWidget,
-} from '../../dashboard/widgets';
+import { EventsWidget } from '../../dashboard/EventsWidget';
+import { IdeaWidget, MailWidget, SummaryWidget, TasksWidget } from '../../dashboard/widgets';
 import { useProfile } from '../../lib/profile';
 
 // Mobile dock: 60 tall, 12 above the bottom edge, 4 below the content.

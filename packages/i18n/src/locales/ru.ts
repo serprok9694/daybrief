@@ -5,7 +5,11 @@ export const ru: Dictionary = {
   common: {
     appName: 'daybrief',
     signOut: 'Выйти',
-    updatedAgo: 'Обновлено {minutes} мин назад',
+    updatedAgo:
+      '{minutes, plural, =0 {Обновлено только что} other {Обновлено #\u00A0мин\u00A0назад}}',
+    updatedHoursAgo: 'Обновлено {hours}\u00A0ч\u00A0назад',
+    updatedDaysAgo:
+      '{days, plural, one {Обновлено #\u00A0день\u00A0назад} few {Обновлено #\u00A0дня\u00A0назад} many {Обновлено #\u00A0дней\u00A0назад} other {Обновлено #\u00A0дня\u00A0назад}}',
     refresh: 'Обновить',
     retry: 'Повторить',
     errorTitle: 'Не удалось обновить',
@@ -35,10 +39,19 @@ export const ru: Dictionary = {
     title: 'События сегодня',
     refresh: 'Обновить события',
     startsIn: 'через {minutes} мин',
+    startsInHours: '{minutes, plural, =0 {через {hours} ч} other {через {hours} ч # мин}}',
+    duration:
+      '{hours, plural, =0 {{minutes}\u00A0мин} other {{minutes, plural, =0 {{hours}\u00A0ч} other {{hours}\u00A0ч {minutes}\u00A0мин}}}}',
+    allDay: 'Весь день',
     free: 'Свободно {from}–{to}',
     open: 'Открыть в Google Календаре',
+    joinCall: 'Подключиться к звонку {service}',
+    videoCall: 'Видеозвонок',
+    untitled: '(Без названия)',
     empty: 'Сегодня без встреч — день твой',
     loading: 'Загружаю события',
+    reconnectHint: 'У daybrief нет доступа к Google Календарю. Переподключи его в настройках.',
+    reconnect: 'Открыть настройки',
   },
   tasks: {
     title: 'Задачи',

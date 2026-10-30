@@ -4,7 +4,10 @@ export const en = {
   common: {
     appName: 'daybrief',
     signOut: 'Sign out',
-    updatedAgo: 'Updated {minutes} min ago',
+    updatedAgo: '{minutes, plural, =0 {Updated just now} other {Updated #\u00A0min\u00A0ago}}',
+    updatedHoursAgo: 'Updated {hours}\u00A0h\u00A0ago',
+    updatedDaysAgo:
+      '{days, plural, one {Updated #\u00A0day\u00A0ago} other {Updated #\u00A0days\u00A0ago}}',
     refresh: 'Refresh',
     retry: 'Try again',
     errorTitle: 'Couldn’t refresh',
@@ -34,10 +37,20 @@ export const en = {
     title: 'Today’s events',
     refresh: 'Refresh events',
     startsIn: 'in {minutes} min',
+    startsInHours: '{minutes, plural, =0 {in {hours} h} other {in {hours} h # min}}',
+    // Non-breaking spaces keep "1 h" and "30 min" together when the 52 px time column wraps.
+    duration:
+      '{hours, plural, =0 {{minutes}\u00A0min} other {{minutes, plural, =0 {{hours}\u00A0h} other {{hours}\u00A0h {minutes}\u00A0min}}}}',
+    allDay: 'All day',
     free: 'Free {from}–{to}',
     open: 'Open in Google Calendar',
+    joinCall: 'Join the {service} call',
+    videoCall: 'Video call',
+    untitled: '(No title)',
     empty: 'No meetings today — the day is yours',
     loading: 'Loading events',
+    reconnectHint: 'daybrief can’t reach your Google Calendar. Reconnect it in settings.',
+    reconnect: 'Open settings',
   },
   tasks: {
     title: 'Tasks',

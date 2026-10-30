@@ -68,6 +68,39 @@ describe('resolveLanguage', () => {
   });
 });
 
+describe('events strings', () => {
+  it('formats durations in hours and minutes', () => {
+    const en = i18n.getFixedT('en');
+    const ru = i18n.getFixedT('ru');
+    expect(en('events.duration', { hours: 0, minutes: 30 })).toBe('30\u00A0min');
+    expect(en('events.duration', { hours: 1, minutes: 0 })).toBe('1\u00A0h');
+    expect(en('events.duration', { hours: 1, minutes: 30 })).toBe('1\u00A0h 30\u00A0min');
+    expect(ru('events.duration', { hours: 2, minutes: 15 })).toBe('2\u00A0ч 15\u00A0мин');
+    expect(ru('events.duration', { hours: 3, minutes: 0 })).toBe('3\u00A0ч');
+  });
+
+  it('counts down to the next event', () => {
+    const en = i18n.getFixedT('en');
+    const ru = i18n.getFixedT('ru');
+    expect(en('events.startsIn', { minutes: 18 })).toBe('in 18 min');
+    expect(en('events.startsInHours', { hours: 2, minutes: 0 })).toBe('in 2 h');
+    expect(ru('events.startsInHours', { hours: 1, minutes: 5 })).toBe('через 1 ч 5 мин');
+  });
+
+  // Non-breaking spaces: a narrow header wraps after "Updated", not inside "2 min ago".
+  it('says how long ago data was updated', () => {
+    const en = i18n.getFixedT('en');
+    const ru = i18n.getFixedT('ru');
+    expect(en('common.updatedAgo', { minutes: 0 })).toBe('Updated just now');
+    expect(en('common.updatedAgo', { minutes: 2 })).toBe('Updated 2\u00A0min\u00A0ago');
+    expect(ru('common.updatedAgo', { minutes: 0 })).toBe('Обновлено только что');
+    expect(ru('common.updatedHoursAgo', { hours: 3 })).toBe('Обновлено 3\u00A0ч\u00A0назад');
+    expect(en('common.updatedDaysAgo', { days: 1 })).toBe('Updated 1\u00A0day\u00A0ago');
+    expect(ru('common.updatedDaysAgo', { days: 2 })).toBe('Обновлено 2\u00A0дня\u00A0назад');
+    expect(ru('common.updatedDaysAgo', { days: 5 })).toBe('Обновлено 5\u00A0дней\u00A0назад');
+  });
+});
+
 describe('typed keys', () => {
   it('rejects unknown keys at compile time', () => {
     // These lines exist for tsc: if a key stops being an error, @ts-expect-error fails typecheck.

@@ -5,9 +5,10 @@ import type {
   ScenePreference,
   ThemePreference,
 } from '@daybrief/core';
-import { isLanguage } from '@daybrief/i18n';
+import { isLanguage, resolveLanguage, systemLocales } from '@daybrief/i18n';
 import type { Session } from '@supabase/supabase-js';
 import type { DevMock } from './dev-mock';
+import { createEventsMock, eventScenarios } from './dev-mock-events';
 
 const scenes: readonly ScenePreference[] = ['auto', 'morning', 'day', 'evening', 'night'];
 const themes: readonly ThemePreference[] = ['auto', 'light', 'dark'];
@@ -15,7 +16,8 @@ const connections: readonly GoogleConnectionStatus[] = ['active', 'revoked', 'er
 
 /**
  * Web query parameters tune the mock for visual checks: `?lang=ru`, `?scene=night`, `?theme=dark`,
- * `?name=Anna%20Kowalska`, `?google=error` (Calendar + Tasks connection status).
+ * `?name=Anna%20Kowalska`, `?google=error` (Calendar + Tasks connection status), `?events=many`
+ * (events widget scenario, see dev-mock-events.ts).
  */
 export function createDevMock(): DevMock {
   const search = (globalThis as { location?: { search?: string } }).location?.search ?? '';
@@ -27,7 +29,11 @@ export function createDevMock(): DevMock {
   const themeParam = params.get('theme') ?? '';
   const theme = themes.find((t) => t === themeParam) ?? 'auto';
   const googleParam = params.get('google') ?? '';
-  const googleConnection = connections.find((c) => c === googleParam) ?? 'active';
+  const eventsParam = params.get('events') ?? '';
+  const events = eventScenarios.find((s) => s === eventsParam) ?? 'day';
+  const googleConnection =
+    connections.find((c) => c === googleParam) ??
+    (events === 'revoked' ? 'revoked' : events === 'stale' ? 'error' : 'active');
   const name = params.get('name') ?? 'Siarhei';
 
   const profile: Profile = {
@@ -46,5 +52,14 @@ export function createDevMock(): DevMock {
     user: { id: 'dev-user', email: 'dev@example.com', user_metadata: { full_name: name } },
   } as unknown as Session;
 
-  return { session, profile, googleConnection };
+  return {
+    session,
+    profile,
+    googleConnection,
+    events: createEventsMock(
+      events,
+      (isLanguage(lang) ? lang : resolveLanguage(systemLocales())) === 'ru',
+      googleConnection,
+    ),
+  };
 }
