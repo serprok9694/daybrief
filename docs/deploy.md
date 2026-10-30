@@ -41,7 +41,7 @@ CORS: API отвечает браузеру только с origin web-прил�
 | `SUPABASE_SECRET_KEY` | Supabase → Project Settings → API Keys → secret key |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google Cloud → Google Auth Platform → Clients |
 | `TOKEN_ENCRYPTION_KEY` | `.env` (тот же, что локально; потеря = повторный вход всех пользователей) |
-| `SYNC_SECRET` | `openssl rand -base64 32`; то же значение — в Supabase Vault для `pg_cron` (M1/T3). Заголовок `x-sync-secret` у `POST /internal/sync` |
+| `SYNC_SECRET` | `openssl rand -base64 32`; то же значение — в Supabase Vault (`daybrief_sync_secret`) для `pg_cron`, см. «Первичная настройка», шаг 5. Заголовок `x-sync-secret` у `POST /internal/sync` |
 
 ### GitHub Actions (Settings → Secrets and variables → Actions)
 
@@ -92,6 +92,62 @@ Authentication → URL Configuration:
 - Для iOS/Android-сборок (позже): `daybrief://**`.
 
 После входа Google возвращает на `/auth/callback?code=…` (PKCE), под эти маски он попадает.
+
+### 5. Фоновый sync: `SYNC_SECRET` (M1/T3)
+
+Каждые 15 минут `pg_cron` job `daybrief-sync` (миграция `20261030120000_calendar_sync_schedule.sql`) через `pg_net` вызывает `POST https://daybrief-api.vercel.app/internal/sync` с заголовком `x-sync-secret`. Секрет job берёт при каждом запуске из Supabase Vault (`daybrief_sync_secret`). Пока секрета в Vault нет, job ничего не отправляет. Если секрет есть в Vault, но не задан в Vercel, API отвечает 503.
+
+1. Сгенерировать секрет в своём терминале (в чат и в репозиторий не вставлять):
+   ```bash
+   openssl rand -base64 32
+   ```
+2. Vercel → `daybrief-api` → Settings → Environment Variables → `SYNC_SECRET`, тип Sensitive, окружения **Production и Preview**. Это же значение — в локальный `.env` (`SYNC_SECRET=…`).
+3. Vercel → `daybrief-api` → Deployments → последний production-деплой → **Redeploy**.
+4. Supabase → SQL Editor, одна команда с тем же значением:
+   ```sql
+   select vault.create_secret('<значение>', 'daybrief_sync_secret');
+   ```
+
+**Замена секрета.** Сгенерировать новое значение, заменить `SYNC_SECRET` в Vercel и `.env`, сделать Redeploy, затем в SQL Editor:
+
+```sql
+select vault.update_secret(
+  (select id from vault.secrets where name = 'daybrief_sync_secret'),
+  '<новое значение>'
+);
+```
+
+Между Redeploy и `update_secret` запуски job получают 401. Это безвредно: следующий запуск через 15 минут пройдёт.
+
+**Проверка** (SQL Editor):
+
+```sql
+-- job на месте
+select jobid, schedule, active from cron.job where jobname = 'daybrief-sync';
+
+-- последние запуски: status = 'succeeded' значит, что запрос поставлен в очередь
+select status, return_message, start_time
+from cron.job_run_details
+where jobid = (select jobid from cron.job where jobname = 'daybrief-sync')
+order by start_time desc limit 5;
+
+-- ответы API (хранятся 6 ч): ожидается status_code = 200 и счётчики в content
+select status_code, content, timed_out, error_msg, created
+from net._http_response order by created desc limit 5;
+
+-- sync идёт: synced_at растёт каждые 15 минут
+select user_id, synced_at, error from public.sync_state where source = 'calendar';
+```
+
+Нет строк в `net._http_response` после очередного запуска → нет секрета в Vault. 401 → значения в Vault и Vercel не совпадают. 503 → `SYNC_SECRET` не задан в Vercel или не было Redeploy.
+
+Ручной вызов (секрет — из `.env`):
+
+```bash
+curl -sS -X POST https://daybrief-api.vercel.app/internal/sync -H "x-sync-secret: $SYNC_SECRET"
+```
+
+Ожидается 200 и только счётчики.
 
 ## Локальная БД
 
