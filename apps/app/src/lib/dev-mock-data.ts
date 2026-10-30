@@ -32,7 +32,8 @@ export function createDevMock(): DevMock {
   const eventsParam = params.get('events') ?? '';
   const events = eventScenarios.find((s) => s === eventsParam) ?? 'day';
   const googleConnection =
-    connections.find((c) => c === googleParam) ?? (events === 'revoked' ? 'revoked' : 'active');
+    connections.find((c) => c === googleParam) ??
+    (events === 'revoked' ? 'revoked' : events === 'stale' ? 'error' : 'active');
   const name = params.get('name') ?? 'Siarhei';
 
   const profile: Profile = {

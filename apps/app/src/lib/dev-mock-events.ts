@@ -12,6 +12,7 @@ export const eventScenarios = [
   'empty',
   'error',
   'revoked',
+  'stale',
   'many',
   'allday',
   'loading',
@@ -108,7 +109,8 @@ function eventsFor(scenario: EventScenario, ru: boolean, timeZone: string): Cale
 
 /**
  * Events widget data for the dev mock, picked with `?events=`: `day` (default), `empty`,
- * `error` (requests fail), `revoked` (connection revoked), `many` (8 events), `allday`,
+ * `error` (requests fail), `revoked` (connection revoked), `stale` (connection failing,
+ * cached events shown), `many` (8 events), `allday`,
  * `loading` (never answers). Times are relative to now, so the next event is always ahead.
  */
 export function createEventsMock(
@@ -117,7 +119,7 @@ export function createEventsMock(
   connection: GoogleConnectionStatus,
 ): EventsSource {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  let syncedAt = new Date(Date.now() - 2 * MIN).toISOString();
+  let syncedAt = new Date(Date.now() - (scenario === 'stale' ? 3 * 60 : 2) * MIN).toISOString();
   const data = (): TodayEvents => ({
     events: eventsFor(scenario, ru, timeZone),
     syncedAt,

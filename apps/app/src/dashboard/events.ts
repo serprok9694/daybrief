@@ -6,6 +6,7 @@ import {
   type CalendarEvent,
   type GoogleConnectionStatus,
   type TimedCalendarEvent,
+  type TodayEvents,
 } from '@daybrief/core';
 
 /** Events shown before "Show N more". */
@@ -125,14 +126,33 @@ export function msToNextMinute(now: number): number {
 /** Outcome of `POST /sync/calendar`. */
 export type SyncOutcome = 'synced' | 'throttled' | 'revoked' | 'error' | 'not_connected';
 
+export type EventsState =
+  | { status: 'loading' }
+  /** `syncFailed`: the last sync failed, the events are from the cache ("Couldn't refresh"). */
+  | { status: 'ready'; data: TodayEvents; syncFailed: boolean }
+  /** The request failed, or the sync failed with nothing cached: "Couldn't refresh" + "Try again". */
+  | { status: 'error' }
+  /** The Calendar connection is revoked or missing: reconnect in settings. */
+  | { status: 'reconnect' };
+
 /**
- * Whether the Calendar connection needs the user to reconnect in settings, from the
- * connection status or a sync outcome.
+ * The widget state from today's events and the connection status or sync outcome. A failing
+ * connection (`error`) is usually a temporary Google failure that the background sync
+ * retries, so cached events stay on screen; only a revoked or missing one asks to reconnect.
  */
-export function needsReconnect(status: GoogleConnectionStatus | SyncOutcome | null): boolean {
-  return (
-    status === 'revoked' || status === 'error' || status === 'none' || status === 'not_connected'
-  );
+export function eventsState(
+  data: TodayEvents,
+  status: GoogleConnectionStatus | SyncOutcome | null,
+): EventsState {
+  if (status === 'revoked' || status === 'none' || status === 'not_connected') {
+    return { status: 'reconnect' };
+  }
+  if (status === 'error') {
+    return data.events.length > 0
+      ? { status: 'ready', data, syncFailed: true }
+      : { status: 'error' };
+  }
+  return { status: 'ready', data, syncFailed: false };
 }
 
 /** Event time in the user's zone, 24-hour like the design in both languages: "09:30". */

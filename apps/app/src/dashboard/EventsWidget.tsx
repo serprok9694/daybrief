@@ -88,6 +88,7 @@ export function EventsWidget({ className }: { className?: string }) {
     const { rows, hidden } = buildTimeline(state.data.events, now, timeZone, expanded);
     body = (
       <>
+        {state.syncFailed && <SyncFailed busy={busy} onRetry={refresh} />}
         <View role="list" className="gap-0.5">
           {rows.map((row) => (
             <View role="listitem" key={rowKey(row)}>
@@ -280,7 +281,28 @@ function VideoLink({ url }: { url: string }) {
   );
 }
 
-/** Revoked, failing or missing Calendar connection: the error state pointing to settings. */
+/** Above cached events when the last sync failed: "Couldn't refresh" + "Try again". */
+function SyncFailed({ busy, onRetry }: { busy: boolean; onRetry: () => void }) {
+  const { t } = useTranslation();
+  return (
+    <View role="status" className="flex-row items-center gap-2 rounded-row bg-fill py-1 pl-3 pr-1">
+      <Icon icon={AlertTriangle} />
+      <Text variant="secondary" tone="ink-2" className="min-w-0 flex-1">
+        {t('common.errorTitle')}
+      </Text>
+      <Button
+        variant="ghost"
+        size="small"
+        icon={RefreshCw}
+        label={t('common.retry')}
+        disabled={busy}
+        onPress={onRetry}
+      />
+    </View>
+  );
+}
+
+/** Revoked or missing Calendar connection: the error state pointing to settings. */
 function Reconnect() {
   const { t } = useTranslation();
   return (

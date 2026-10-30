@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest';
 import {
   buildTimeline,
   duration,
+  eventsState,
   formatTime,
   isStale,
   msToNextMinute,
-  needsReconnect,
   startsIn,
   updatedAgo,
   videoService,
@@ -218,14 +218,37 @@ describe('msToNextMinute', () => {
   });
 });
 
-describe('needsReconnect', () => {
-  it('is true for revoked, failed and missing connections', () => {
-    for (const s of ['revoked', 'error', 'none', 'not_connected'] as const) {
-      expect(needsReconnect(s)).toBe(true);
+describe('eventsState', () => {
+  const cached = { events: [timed('a', '10:00', '11:00')], syncedAt: null, error: null };
+  const empty = { events: [], syncedAt: null, error: null };
+
+  it('asks to reconnect when the connection is revoked or missing', () => {
+    for (const s of ['revoked', 'none', 'not_connected'] as const) {
+      expect(eventsState(cached, s)).toEqual({ status: 'reconnect' });
     }
+  });
+
+  it('keeps cached events when the connection is failing', () => {
+    expect(eventsState(cached, 'error')).toEqual({
+      status: 'ready',
+      data: cached,
+      syncFailed: true,
+    });
+  });
+
+  it('shows the error state when the connection is failing and nothing is cached', () => {
+    expect(eventsState(empty, 'error')).toEqual({ status: 'error' });
+  });
+
+  it('shows the events otherwise, also without a known status', () => {
     for (const s of ['active', 'synced', 'throttled', null] as const) {
-      expect(needsReconnect(s)).toBe(false);
+      expect(eventsState(cached, s)).toEqual({ status: 'ready', data: cached, syncFailed: false });
     }
+    expect(eventsState(empty, 'active')).toEqual({
+      status: 'ready',
+      data: empty,
+      syncFailed: false,
+    });
   });
 });
 

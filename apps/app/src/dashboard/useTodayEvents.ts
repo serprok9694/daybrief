@@ -1,18 +1,9 @@
-import type { TodayEvents } from '@daybrief/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { devMock } from '../lib/dev-mock';
 import { apiEventsSource, type EventsSource } from '../lib/events-source';
 import { supabase } from '../lib/supabase';
-import { isStale, msToNextMinute, needsReconnect } from './events';
-
-export type EventsState =
-  | { status: 'loading' }
-  | { status: 'ready'; data: TodayEvents }
-  /** The request failed: "Couldn't refresh" + "Try again". */
-  | { status: 'error' }
-  /** The Calendar connection is revoked, failing or missing: reconnect in settings. */
-  | { status: 'reconnect' };
+import { eventsState, isStale, msToNextMinute, type EventsState } from './events';
 
 async function accessToken() {
   const { data } = await supabase.auth.getSession();
@@ -64,7 +55,7 @@ export function useTodayEvents(): {
           // Without a status the events still show; the API answers from its cache.
           source.connection().catch(() => null),
         ]);
-        return needsReconnect(connection) ? { status: 'reconnect' } : { status: 'ready', data };
+        return eventsState(data, connection);
       }),
     [settle, source],
   );
@@ -73,7 +64,7 @@ export function useTodayEvents(): {
     setBusy(true);
     void settle(async () => {
       const { sync, ...data } = await source.sync();
-      return needsReconnect(sync) ? { status: 'reconnect' } : { status: 'ready', data };
+      return eventsState(data, sync);
     });
   }, [settle, source]);
 
