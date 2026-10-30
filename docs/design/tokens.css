@@ -57,10 +57,10 @@
 .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
 
 /* ---------- Scenes (stand-ins for the interior photos) ---------- */
-.sc-morning { --wall-a:#EAD9C2; --wall-b:#D8BF9E; --glow:rgba(255,244,222,.95); --wood:#B58659; --wood-2:#A47549; --floor:#B48A62; --floor-2:#9B7249; --obj:rgba(120,92,66,.45); }
-.sc-day     { --wall-a:#F2EADF; --wall-b:#E3D5C2; --glow:rgba(255,255,255,.95); --wood:#C9A478; --wood-2:#B99266; --floor:#CBA77D; --floor-2:#B58F66; --obj:rgba(130,105,80,.35); }
-.sc-evening { --wall-a:#D9A57C; --wall-b:#8E5F48; --glow:rgba(255,176,112,.85); --wood:#6F4630; --wood-2:#5E3A27; --floor:#6A4430; --floor-2:#4A2D20; --obj:rgba(40,24,16,.55); }
-.sc-night   { --wall-a:#2E2723; --wall-b:#171311; --glow:rgba(255,181,102,.28); --wood:#2B1E17; --wood-2:#231813; --floor:#1E1511; --floor-2:#120D0A; --obj:rgba(0,0,0,.50); }
+.sc-morning { --wall-a:#EAD9C2; --wall-b:#D8BF9E; --glow:rgba(255,244,222,.95); --wood:#B58659; --wood-2:#A47549; --floor:#B48A62; --floor-2:#9B7249; --obj:rgba(120,92,66,.45); --scene-tint:rgba(255,236,210,.10); }
+.sc-day     { --wall-a:#F2EADF; --wall-b:#E3D5C2; --glow:rgba(255,255,255,.95); --wood:#C9A478; --wood-2:#B99266; --floor:#CBA77D; --floor-2:#B58F66; --obj:rgba(130,105,80,.35); --scene-tint:rgba(0,0,0,0); }
+.sc-evening { --wall-a:#D9A57C; --wall-b:#8E5F48; --glow:rgba(255,176,112,.85); --wood:#6F4630; --wood-2:#5E3A27; --floor:#6A4430; --floor-2:#4A2D20; --obj:rgba(40,24,16,.55); --scene-tint:rgba(58,30,14,.42); }
+.sc-night   { --wall-a:#2E2723; --wall-b:#171311; --glow:rgba(255,181,102,.28); --wood:#2B1E17; --wood-2:#231813; --floor:#1E1511; --floor-2:#120D0A; --obj:rgba(0,0,0,.50); --scene-tint:rgba(10,8,6,.68); }
 .scn {
   position: relative; isolation: isolate;
   background:

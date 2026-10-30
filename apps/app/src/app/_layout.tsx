@@ -1,4 +1,5 @@
 import '../global.css';
+import '../scene-photo';
 
 import { I18nProvider } from '@daybrief/i18n';
 import { fonts, ThemeProvider } from '@daybrief/ui';
