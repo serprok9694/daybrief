@@ -1,8 +1,9 @@
-// The five dashboard widgets in their loading state (docs/design/source/*Widget.dc.html,
-// status "loading"). M0 has no data yet, so they stay here and request nothing.
+// Dashboard widgets still in their loading state (docs/design/source/*Widget.dc.html,
+// status "loading"): they get data in later milestones and request nothing yet. The events
+// widget has data since M1 and lives in EventsWidget.tsx.
 import { useTranslation } from '@daybrief/i18n';
 import { Skeleton } from '@daybrief/ui';
-import { Calendar, Lightbulb, ListChecks, Mail, Sparkles } from 'lucide-react-native';
+import { Lightbulb, ListChecks, Mail, Sparkles } from 'lucide-react-native';
 import { View, type DimensionValue } from 'react-native';
 import { Loading, Widget } from './Widget';
 
@@ -14,33 +15,6 @@ export function SummaryWidget() {
         <Skeleton height={24} width="96%" />
         <Skeleton height={24} width="88%" />
         <Skeleton height={24} width="54%" />
-      </Loading>
-    </Widget>
-  );
-}
-
-const eventRows: DimensionValue[] = ['70%', '55%', '80%', '62%'];
-
-export function EventsWidget({ className }: { className?: string }) {
-  const { t } = useTranslation();
-  return (
-    <Widget
-      icon={Calendar}
-      title={t('events.title')}
-      refreshLabel={t('events.refresh')}
-      loading
-      className={className}
-    >
-      <Loading label={t('events.loading')} className="gap-[18px] px-3 py-1.5">
-        {eventRows.map((width, i) => (
-          <View key={i} className="flex-row items-start gap-3.5">
-            <Skeleton width={44} height={36} />
-            <View className="flex-1 gap-2">
-              <Skeleton height={16} width={width} />
-              <Skeleton height={12} width="38%" />
-            </View>
-          </View>
-        ))}
       </Loading>
     </Widget>
   );

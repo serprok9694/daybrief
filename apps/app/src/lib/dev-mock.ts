@@ -1,10 +1,12 @@
 import type { GoogleConnectionStatus, Profile } from '@daybrief/core';
 import type { Session } from '@supabase/supabase-js';
+import type { EventsSource } from './events-source';
 
 export interface DevMock {
   session: Session;
   profile: Profile;
   googleConnection: GoogleConnectionStatus;
+  events: EventsSource;
 }
 
 /**
