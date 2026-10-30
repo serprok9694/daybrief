@@ -1,0 +1,5 @@
+/* Interior photo under every scene (web). The scene's tint darkens it for evening and night. */
+.dbf-scn {
+  --scene-photo:
+    linear-gradient(var(--scene-tint), var(--scene-tint)), url('/scenes/interior.webp');
+}

@@ -2,7 +2,8 @@ import type { PartOfDay } from '@daybrief/core';
 
 /**
  * Background scenes: CSS stand-ins for the interior photos (docs/design/tokens.css, `.sc-*`).
- * A photo replaces them later through `--scene-photo` without code changes.
+ * An app sets the photo through `--scene-photo`; `--scene-tint` is laid over it so one daylight
+ * photo reads as morning, day, evening or night.
  */
 export type SceneName = PartOfDay;
 
@@ -18,6 +19,7 @@ export const scenes = {
     '--floor': '#B48A62',
     '--floor-2': '#9B7249',
     '--obj': 'rgba(120,92,66,.45)',
+    '--scene-tint': 'rgba(255,236,210,.10)',
   },
   day: {
     '--wall-a': '#F2EADF',
@@ -28,6 +30,7 @@ export const scenes = {
     '--floor': '#CBA77D',
     '--floor-2': '#B58F66',
     '--obj': 'rgba(130,105,80,.35)',
+    '--scene-tint': 'rgba(0,0,0,0)',
   },
   evening: {
     '--wall-a': '#D9A57C',
@@ -38,6 +41,7 @@ export const scenes = {
     '--floor': '#6A4430',
     '--floor-2': '#4A2D20',
     '--obj': 'rgba(40,24,16,.55)',
+    '--scene-tint': 'rgba(58,30,14,.42)',
   },
   night: {
     '--wall-a': '#2E2723',
@@ -48,6 +52,7 @@ export const scenes = {
     '--floor': '#1E1511',
     '--floor-2': '#120D0A',
     '--obj': 'rgba(0,0,0,.50)',
+    '--scene-tint': 'rgba(10,8,6,.68)',
   },
 } as const satisfies Record<SceneName, Record<`--${string}`, string>>;
 
