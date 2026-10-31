@@ -54,11 +54,15 @@ export async function readJson(response: { json(): Promise<unknown> }): Promise<
   }
 }
 
+/** Name of a Google API in error messages, e.g. `Calendar API`. */
+export type ApiName = string;
+
 /**
- * GET a Calendar API URL with a bearer token. Errors carry Google's status text
+ * GET a Google API URL with a bearer token. Errors carry Google's status text
  * (`PERMISSION_DENIED`, ...), never the request headers.
  */
 export async function getJson(
+  api: ApiName,
   url: string,
   accessToken: string,
   deps: ConnectorDeps,
@@ -70,7 +74,7 @@ export async function getJson(
       headers: { authorization: `Bearer ${accessToken}`, accept: 'application/json' },
     });
   } catch {
-    return fail('error', null, 'Calendar API: network error');
+    return fail('error', null, `${api}: network error`);
   }
   const body = await readJson(response);
   if (!response.ok) {
@@ -79,9 +83,34 @@ export async function getJson(
     return fail(
       'error',
       response.status,
-      `Calendar API ${response.status}${googleStatus ? ` ${googleStatus}` : ''}`,
+      `${api} ${response.status}${googleStatus ? ` ${googleStatus}` : ''}`,
     );
   }
-  if (!isRecord(body)) return fail('error', response.status, 'Calendar API: unexpected response');
+  if (!isRecord(body)) return fail('error', response.status, `${api}: unexpected response`);
   return ok(body);
+}
+
+/** Guard against a pagination loop; our lists are nowhere near this. */
+export const MAX_PAGES = 20;
+
+/** `items` of every page of a Google list endpoint, following `nextPageToken`. */
+export async function listAllPages(
+  api: ApiName,
+  url: (pageToken: string | undefined) => string,
+  accessToken: string,
+  deps: ConnectorDeps,
+): Promise<GoogleResult<Json[]>> {
+  const all: Json[] = [];
+  let pageToken: string | undefined;
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const result = await getJson(api, url(pageToken), accessToken, deps);
+    if (!result.ok) return result;
+    const items = result.value.items;
+    if (items !== undefined && !Array.isArray(items))
+      return fail('error', 200, `${api}: unexpected response`);
+    all.push(...(items ?? []).filter(isRecord));
+    pageToken = str(result.value.nextPageToken);
+    if (!pageToken) return ok(all);
+  }
+  return fail('error', null, `${api}: more than ${MAX_PAGES} pages`);
 }
