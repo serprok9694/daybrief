@@ -1,0 +1,22 @@
+{
+  "kind": "tasks#taskLists",
+  "etag": "\"LTE4NzQ1MjA0NzY\"",
+  "items": [
+    {
+      "kind": "tasks#taskList",
+      "id": "MDQ3NTI5NjM0MjM2NTk0MzY4NzY6MDow",
+      "etag": "\"LTE4NzQ1MjA0NzY\"",
+      "title": "My Tasks",
+      "updated": "2026-10-30T08:12:44.123Z",
+      "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/MDQ3NTI5NjM0MjM2NTk0MzY4NzY6MDow"
+    },
+    {
+      "kind": "tasks#taskList",
+      "id": "dWJYVGRaUWQ0a0NhWmZzUQ",
+      "etag": "\"LTE4NzQ0OTkzMTI\"",
+      "title": "Дом",
+      "updated": "2026-10-29T17:40:02.511Z",
+      "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/dWJYVGRaUWQ0a0NhWmZzUQ"
+    }
+  ]
+}

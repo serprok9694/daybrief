@@ -1,19 +1,17 @@
 import type { CalendarEvent, TimeRange } from '@daybrief/core';
 import {
-  fail,
   formEncode,
-  getJson,
   isRecord,
+  listAllPages,
   ok,
   str,
   type ConnectorDeps,
   type GoogleResult,
   type Json,
-} from './http';
+} from '../google/http';
 
 const API = 'https://www.googleapis.com/calendar/v3';
-/** Guard against a pagination loop; a three-day window is nowhere near this. */
-const MAX_PAGES = 20;
+const API_NAME = 'Calendar API';
 
 // Partial responses (https://developers.google.com/workspace/calendar/api/guides/performance):
 // descriptions, attendee emails and attachments never leave Google. Only `self` and
@@ -30,7 +28,8 @@ export async function listSelectedCalendars(
   accessToken: string,
   deps: ConnectorDeps,
 ): Promise<GoogleResult<SelectedCalendar[]>> {
-  const items = await listAll(
+  const items = await listAllPages(
+    API_NAME,
     (pageToken) =>
       `${API}/users/me/calendarList?${formEncode({ maxResults: 250, fields: CALENDAR_LIST_FIELDS, pageToken })}`,
     accessToken,
@@ -62,7 +61,8 @@ export async function listEvents(
   range: TimeRange,
   deps: ConnectorDeps,
 ): Promise<GoogleResult<CalendarEvent[]>> {
-  const items = await listAll(
+  const items = await listAllPages(
+    API_NAME,
     (pageToken) =>
       `${API}/calendars/${encodeURIComponent(calendarId)}/events?${formEncode({
         timeMin: range.start,
@@ -78,26 +78,6 @@ export async function listEvents(
   );
   if (!items.ok) return items;
   return ok(items.value.flatMap((item) => toCalendarEvent(item, calendarId) ?? []));
-}
-
-async function listAll(
-  url: (pageToken: string | undefined) => string,
-  accessToken: string,
-  deps: ConnectorDeps,
-): Promise<GoogleResult<Json[]>> {
-  const all: Json[] = [];
-  let pageToken: string | undefined;
-  for (let page = 0; page < MAX_PAGES; page++) {
-    const result = await getJson(url(pageToken), accessToken, deps);
-    if (!result.ok) return result;
-    const items = result.value.items;
-    if (items !== undefined && !Array.isArray(items))
-      return fail('error', 200, 'Calendar API: unexpected response');
-    all.push(...(items ?? []).filter(isRecord));
-    pageToken = str(result.value.nextPageToken);
-    if (!pageToken) return ok(all);
-  }
-  return fail('error', null, `Calendar API: more than ${MAX_PAGES} pages`);
 }
 
 /** Google event resource → dashboard event, or null if it shouldn't be shown. */

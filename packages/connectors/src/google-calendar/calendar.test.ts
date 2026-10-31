@@ -3,7 +3,7 @@ import { listEvents, listSelectedCalendars, videoUrl } from './calendar';
 import calendarList from './fixtures/calendar-list.json';
 import eventsPage1 from './fixtures/events-page-1.json';
 import eventsPage2 from './fixtures/events-page-2.json';
-import { fakeFetch, queryOf } from './test-fetch';
+import { fakeFetch, queryOf } from '../google/test-fetch';
 
 const TOKEN = 'ya29.access-token-secret';
 const CALENDAR = 'author@example.com';

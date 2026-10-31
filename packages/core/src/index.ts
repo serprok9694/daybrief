@@ -30,6 +30,16 @@ export {
   type TodayEvents,
 } from './calendar';
 export {
+  groupTasks,
+  localDate,
+  taskWindow,
+  type GoogleTask,
+  type GroupedTasks,
+  type OverdueTask,
+  type TaskWindow,
+  type TodayTasks,
+} from './tasks';
+export {
   IDEA_EXTERNAL_ID_MAX_LENGTH,
   IDEA_MAX_LENGTH,
   IDEA_SNOOZE_DAYS,
