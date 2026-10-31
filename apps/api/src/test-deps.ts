@@ -1,6 +1,6 @@
 import { GOOGLE_TOKEN_URL, type FetchLike } from '@daybrief/connectors';
-import type { CalendarEvent } from '@daybrief/core';
-import { randomBytes } from 'node:crypto';
+import type { ApiToken, CalendarEvent, Idea } from '@daybrief/core';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { vi } from 'vitest';
 import { encrypt } from './crypto';
 import type { Deps } from './deps';
@@ -27,6 +27,24 @@ export const tokenOk: FakeResponse = {
   body: { access_token: ACCESS_TOKEN, expires_in: 3599, token_type: 'Bearer' },
 };
 
+const ideaView = (i: Idea): Idea => ({
+  id: i.id,
+  text: i.text,
+  source: i.source,
+  externalId: i.externalId,
+  createdAt: i.createdAt,
+  snoozedUntil: i.snoozedUntil,
+  doneAt: i.doneAt,
+  lastShownAt: i.lastShownAt,
+});
+const tokenView = (t: ApiToken): ApiToken => ({
+  id: t.id,
+  name: t.name,
+  last4: t.last4,
+  createdAt: t.createdAt,
+  lastUsedAt: t.lastUsedAt,
+});
+
 /**
  * In-memory stand-in for Supabase and Google behind `Deps`. Tokens of the form
  * `token-for-<userId>` authenticate as that user. Test-only.
@@ -43,6 +61,8 @@ export function fakeWorld() {
       string,
       { syncedAt: string | null; error: string | null; lockedUntil: number | null }
     >(),
+    ideas: [] as (Idea & { userId: string; textHash: string })[],
+    apiTokens: [] as (ApiToken & { userId: string; tokenHash: string; revoked: boolean })[],
     google: {
       token: tokenOk,
       calendarList: { status: 200, body: { items: [] } },
@@ -129,6 +149,69 @@ export function fakeWorld() {
     },
     listSyncUserIds: async () =>
       [...state.connections].filter(([, c]) => c.status !== 'revoked').map(([id]) => id),
+
+    // Ideas and API tokens, with the dedup and limit rules of the SQL functions.
+    addIdea: async (userId, { text, source, externalId, textHash }) => {
+      const mine = state.ideas.filter((i) => i.userId === userId);
+      const existing =
+        (externalId !== null && mine.find((i) => i.externalId === externalId)) ||
+        mine.find((i) => i.textHash === textHash && i.doneAt === null);
+      if (existing) return { idea: ideaView(existing), created: false };
+      const idea = {
+        id: randomUUID(),
+        text,
+        source,
+        externalId,
+        createdAt: state.now.toISOString(),
+        snoozedUntil: null,
+        doneAt: null,
+        lastShownAt: null,
+      };
+      state.ideas.push({ ...idea, userId, textHash });
+      return { idea, created: true };
+    },
+    getOpenIdeas: async (userId) =>
+      state.ideas.filter((i) => i.userId === userId && i.doneAt === null).map(ideaView),
+    markIdeaShown: async (userId, ideaId, at) => {
+      const idea = state.ideas.find((i) => i.userId === userId && i.id === ideaId);
+      if (idea) idea.lastShownAt = at.toISOString();
+    },
+    updateIdea: async (userId, ideaId, patch) => {
+      const idea = state.ideas.find((i) => i.userId === userId && i.id === ideaId);
+      if (!idea) return false;
+      if ('doneAt' in patch) idea.doneAt = patch.doneAt.toISOString();
+      else idea.snoozedUntil = patch.snoozedUntil.toISOString();
+      return true;
+    },
+    useApiToken: async (tokenHash) => {
+      const token = state.apiTokens.find((t) => t.tokenHash === tokenHash && !t.revoked);
+      if (!token) return null;
+      token.lastUsedAt = state.now.toISOString();
+      return { userId: token.userId, tokenHash: token.tokenHash };
+    },
+    listApiTokens: async (userId) =>
+      state.apiTokens.filter((t) => t.userId === userId && !t.revoked).map(tokenView),
+    createApiToken: async (userId, { name, tokenHash, last4 }, limit) => {
+      const active = state.apiTokens.filter((t) => t.userId === userId && !t.revoked);
+      if (active.length >= limit) return null;
+      const token = {
+        id: randomUUID(),
+        name,
+        last4,
+        createdAt: state.now.toISOString(),
+        lastUsedAt: null,
+      };
+      state.apiTokens.push({ ...token, userId, tokenHash, revoked: false });
+      return token;
+    },
+    revokeApiToken: async (userId, tokenId) => {
+      const token = state.apiTokens.find(
+        (t) => t.userId === userId && t.id === tokenId && !t.revoked,
+      );
+      if (!token) return false;
+      token.revoked = true;
+      return true;
+    },
   };
 
   /** A user with a stored (encrypted) refresh token and a profile in `timezone`. */

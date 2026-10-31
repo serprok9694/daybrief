@@ -2,20 +2,30 @@ import type { FetchLike } from '@daybrief/connectors';
 import {
   PROFILE_COLUMNS,
   profileFromRow,
+  type ApiToken,
   type CalendarEvent,
   type Database,
   type GoogleConnectionStatus,
+  type Idea,
+  type IdeaSource,
   type Profile,
   type ProfilePatch,
 } from '@daybrief/core';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { supabaseTokenVerifier, type TokenVerifier } from './auth';
+import { supabaseTokenVerifier, type ApiTokenLookup, type TokenVerifier } from './auth';
 import { parseKey } from './crypto';
 import { CALENDAR_EVENT_COLUMNS, eventFromRow, eventToRow } from './events';
+import {
+  API_TOKEN_COLUMNS,
+  apiTokenFromRow,
+  IDEA_COLUMNS,
+  ideaFromRow,
+  type IdeaOfTheDayDeps,
+} from './ideas';
 import type { SyncDeps } from './sync';
 
 /** What routes need from the outside world; tests pass fakes. */
-export interface Deps extends SyncDeps {
+export interface Deps extends SyncDeps, IdeaOfTheDayDeps {
   verifyToken: () => TokenVerifier;
   getProfile: (userId: string) => Promise<Profile | null>;
   /** Applies a validated settings patch; null when the profile does not exist. */
@@ -31,6 +41,34 @@ export interface Deps extends SyncDeps {
   /** All cached events of the user (the sync window). */
   getCalendarEvents: (userId: string) => Promise<CalendarEvent[]>;
   getCalendarSyncState: (userId: string) => Promise<SyncStateView>;
+  /** Adds an idea or, for a duplicate (external id, or text hash among open ideas), returns
+   * the existing one with `created: false`. */
+  addIdea: (userId: string, idea: NewIdea) => Promise<{ idea: Idea; created: boolean }>;
+  /** Sets "not now" or "done" on the user's own idea; false when there is no such idea. */
+  updateIdea: (userId: string, ideaId: string, patch: IdeaPatch) => Promise<boolean>;
+  useApiToken: ApiTokenLookup;
+  /** The user's active tokens, oldest first. */
+  listApiTokens: (userId: string) => Promise<ApiToken[]>;
+  /** Null when the user already has `limit` active tokens. */
+  createApiToken: (userId: string, token: NewApiToken, limit: number) => Promise<ApiToken | null>;
+  /** Revokes the user's own token; false when there is no such token. */
+  revokeApiToken: (userId: string, tokenId: string) => Promise<boolean>;
+}
+
+export interface NewIdea {
+  text: string;
+  source: IdeaSource;
+  externalId: string | null;
+  textHash: string;
+}
+
+export type IdeaPatch = { snoozedUntil: Date } | { doneAt: Date };
+
+export interface NewApiToken {
+  name: string;
+  /** SHA-256 of the token; the token itself never reaches the data layer. */
+  tokenHash: string;
+  last4: string;
 }
 
 export interface GoogleConnectionView {
@@ -140,6 +178,96 @@ export const liveDeps: Deps = {
     // Normalise PostgREST's `+00:00` to `Z`, like the events.
     const syncedAt = data?.synced_at ? new Date(data.synced_at).toISOString() : null;
     return { syncedAt, error: data?.error ?? null };
+  },
+
+  // Ideas and API tokens ---------------------------------------------------------------------
+  async addIdea(userId, { text, source, externalId, textHash }) {
+    const { data, error } = await adminClient()
+      .rpc('add_idea', {
+        p_user_id: userId,
+        p_text: text,
+        p_source: source,
+        p_text_hash: textHash,
+        p_external_id: externalId ?? undefined,
+      })
+      .single();
+    // Messages name the constraint, never the row: no idea text in logs.
+    if (error) throw new Error(`Failed to add idea: ${error.message}`);
+    const { created, ...row } = data;
+    return { idea: ideaFromRow(row), created };
+  },
+  async getOpenIdeas(userId) {
+    const { data, error } = await adminClient()
+      .from('ideas')
+      .select(IDEA_COLUMNS)
+      .eq('user_id', userId)
+      .is('done_at', null);
+    if (error) throw new Error(`Failed to load ideas: ${error.message}`);
+    return data.map(ideaFromRow);
+  },
+  async markIdeaShown(userId, ideaId, at) {
+    const { error } = await adminClient()
+      .from('ideas')
+      .update({ last_shown_at: at.toISOString() })
+      .eq('user_id', userId)
+      .eq('id', ideaId);
+    if (error) throw new Error(`Failed to mark idea shown: ${error.message}`);
+  },
+  async updateIdea(userId, ideaId, patch) {
+    const { data, error } = await adminClient()
+      .from('ideas')
+      .update(
+        'doneAt' in patch
+          ? { done_at: patch.doneAt.toISOString() }
+          : { snoozed_until: patch.snoozedUntil.toISOString() },
+      )
+      .eq('user_id', userId)
+      .eq('id', ideaId)
+      .select('id');
+    if (error) throw new Error(`Failed to update idea: ${error.message}`);
+    return data.length > 0;
+  },
+  async useApiToken(tokenHash) {
+    const { data, error } = await adminClient()
+      .rpc('use_api_token', { p_token_hash: tokenHash })
+      .maybeSingle();
+    if (error) throw new Error(`Failed to check API token: ${error.message}`);
+    return data && { userId: data.user_id, tokenHash: data.token_hash };
+  },
+  async listApiTokens(userId) {
+    const { data, error } = await adminClient()
+      .from('api_tokens')
+      .select(API_TOKEN_COLUMNS)
+      .eq('user_id', userId)
+      .is('revoked_at', null)
+      .order('created_at');
+    if (error) throw new Error(`Failed to load API tokens: ${error.message}`);
+    return data.map(apiTokenFromRow);
+  },
+  async createApiToken(userId, { name, tokenHash, last4 }, limit) {
+    const { data, error } = await adminClient()
+      .rpc('create_api_token', {
+        p_user_id: userId,
+        p_name: name,
+        p_token_hash: tokenHash,
+        p_last4: last4,
+        p_limit: limit,
+      })
+      .select(API_TOKEN_COLUMNS)
+      .maybeSingle();
+    if (error) throw new Error(`Failed to create API token: ${error.message}`);
+    return data && apiTokenFromRow(data);
+  },
+  async revokeApiToken(userId, tokenId) {
+    const { data, error } = await adminClient()
+      .from('api_tokens')
+      .update({ revoked_at: new Date().toISOString() })
+      .eq('user_id', userId)
+      .eq('id', tokenId)
+      .is('revoked_at', null)
+      .select('id');
+    if (error) throw new Error(`Failed to revoke API token: ${error.message}`);
+    return data.length > 0;
   },
 
   // Calendar sync (SyncDeps) ---------------------------------------------------------------
