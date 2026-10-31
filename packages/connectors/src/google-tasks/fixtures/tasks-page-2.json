@@ -1,0 +1,44 @@
+{
+  "kind": "tasks#tasks",
+  "etag": "\"LTE4NzQ1MjA0NzY\"",
+  "items": [
+    {
+      "kind": "tasks#task",
+      "id": "WkN0Sk1fZ3VxOEZ2bWJ1Tw",
+      "etag": "\"LTE4NzQ1MjExMTE\"",
+      "title": "Call the dentist",
+      "updated": "2026-10-30T07:45:12.000Z",
+      "selfLink": "https://www.googleapis.com/tasks/v1/lists/MDQ3NTI5NjM0MjM2NTk0MzY4NzY6MDow/tasks/WkN0Sk1fZ3VxOEZ2bWJ1Tw",
+      "position": "00000000000000000003",
+      "status": "completed",
+      "due": "2026-10-30T00:00:00.000Z",
+      "completed": "2026-10-30T07:45:12.000Z",
+      "webViewLink": "https://tasks.google.com/task/ZCtJM_guq8FvmbuO?sa=6"
+    },
+    {
+      "kind": "tasks#task",
+      "id": "cFBYcXJ4d1NqOEJnUGRnTA",
+      "etag": "\"LTE4NzQ5OTAwMDA\"",
+      "title": "Send the report",
+      "updated": "2026-10-15T16:00:00.000Z",
+      "selfLink": "https://www.googleapis.com/tasks/v1/lists/MDQ3NTI5NjM0MjM2NTk0MzY4NzY6MDow/tasks/cFBYcXJ4d1NqOEJnUGRnTA",
+      "position": "00000000000000000004",
+      "status": "completed",
+      "due": "2026-10-15T00:00:00.000Z",
+      "completed": "2026-10-15T16:00:00.000Z",
+      "hidden": true,
+      "webViewLink": "https://tasks.google.com/task/pPXqrxwSj8BgPdgL?sa=6"
+    },
+    {
+      "kind": "tasks#task",
+      "id": "TmVlZFJlU3luY0hlcmVaWg",
+      "etag": "\"LTE4NzQ1MjEyMjI\"",
+      "title": "",
+      "updated": "2026-10-29T09:00:00.000Z",
+      "selfLink": "https://www.googleapis.com/tasks/v1/lists/MDQ3NTI5NjM0MjM2NTk0MzY4NzY6MDow/tasks/TmVlZFJlU3luY0hlcmVaWg",
+      "position": "00000000000000000005",
+      "status": "needsAction",
+      "due": "2026-10-29T00:00:00.000Z"
+    }
+  ]
+}
