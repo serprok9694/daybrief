@@ -23,7 +23,21 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "calendar_events": {
+            "api_tokens": {
+                  Row: {
+                    "created_at": string,"id": string,"last_used_at": string | null,"last4": string,"name": string,"revoked_at": string | null,"token_hash": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"last_used_at"?: string | null,"last4": string,"name": string,"revoked_at"?: string | null,"token_hash": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"last_used_at"?: string | null,"last4"?: string,"name"?: string,"revoked_at"?: string | null,"token_hash"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"calendar_events": {
                   Row: {
                     "all_day": boolean,"calendar_id": string,"end_at": string | null,"end_date": string | null,"event_id": string,"html_link": string | null,"start_at": string | null,"start_date": string | null,"synced_at": string,"title": string,"user_id": string,"video_url": string | null
                   }
@@ -47,6 +61,20 @@ export type Database = {
                   }
                   Update: {
                     "created_at"?: string,"refresh_token_encrypted"?: string,"scopes"?: (string)[],"status"?: Database["public"]['Enums']["connection_status"],"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"ideas": {
+                  Row: {
+                    "created_at": string,"done_at": string | null,"external_id": string | null,"id": string,"last_shown_at": string | null,"snoozed_until": string | null,"source": Database["public"]['Enums']["idea_source"],"text": string,"text_hash": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"done_at"?: string | null,"external_id"?: string | null,"id"?: string,"last_shown_at"?: string | null,"snoozed_until"?: string | null,"source": Database["public"]['Enums']["idea_source"],"text": string,"text_hash": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"done_at"?: string | null,"external_id"?: string | null,"id"?: string,"last_shown_at"?: string | null,"snoozed_until"?: string | null,"source"?: Database["public"]['Enums']["idea_source"],"text"?: string,"text_hash"?: string,"user_id"?: string
                   }
                   Relationships: [
                     
@@ -85,7 +113,29 @@ export type Database = {
             [_ in never]: never
           }
           Functions: {
-            "fail_calendar_sync":
+            "add_idea":
+{ Args: { "p_external_id"?: string,"p_source": Database["public"]['Enums']["idea_source"],"p_text": string,"p_text_hash": string,"p_user_id": string }; Returns: {
+              "created": boolean,"created_at": string,"done_at": string,"external_id": string,"id": string,"last_shown_at": string,"snoozed_until": string,"source": Database["public"]['Enums']["idea_source"],"text": string
+            }[]
+                           },
+"create_api_token":
+{ Args: { "p_last4": string,"p_limit": number,"p_name": string,"p_token_hash": string,"p_user_id": string }; Returns: {
+              "created_at": string,
+"id": string,
+"last_used_at": string | null,
+"last4": string,
+"name": string,
+"revoked_at": string | null,
+"token_hash": string,
+"user_id": string
+            }[]
+                          SetofOptions: {
+        from: "*"
+        to: "api_tokens"
+        isOneToOne: false
+        isSetofReturn: true
+      } },
+"fail_calendar_sync":
 { Args: { "p_error": string,"p_status": Database["public"]['Enums']["connection_status"],"p_user_id": string }; Returns: undefined
                            },
 "save_calendar_sync":
@@ -93,10 +143,15 @@ export type Database = {
                            },
 "try_lock_sync":
 { Args: { "p_seconds": number,"p_source": Database["public"]['Enums']["sync_source"],"p_user_id": string }; Returns: boolean
+                           },
+"use_api_token":
+{ Args: { "p_token_hash": string }; Returns: {
+              "token_hash": string,"user_id": string
+            }[]
                            }
           }
           Enums: {
-            "app_locale": "en"|"ru","connection_status": "active"|"revoked"|"error","scene_preference": "auto"|"morning"|"day"|"evening"|"night","sync_source": "calendar","theme_preference": "auto"|"light"|"dark"
+            "app_locale": "en"|"ru","connection_status": "active"|"revoked"|"error","idea_source": "command"|"shortcut"|"reminders","scene_preference": "auto"|"morning"|"day"|"evening"|"night","sync_source": "calendar","theme_preference": "auto"|"light"|"dark"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -216,7 +271,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "app_locale": ["en", "ru"],"connection_status": ["active", "revoked", "error"],"scene_preference": ["auto", "morning", "day", "evening", "night"],"sync_source": ["calendar"],"theme_preference": ["auto", "light", "dark"]
+            "app_locale": ["en", "ru"],"connection_status": ["active", "revoked", "error"],"idea_source": ["command", "shortcut", "reminders"],"scene_preference": ["auto", "morning", "day", "evening", "night"],"sync_source": ["calendar"],"theme_preference": ["auto", "light", "dark"]
           }
         }
 } as const
